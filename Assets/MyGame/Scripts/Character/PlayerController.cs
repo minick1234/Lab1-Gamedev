@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerInputController _input;
     [SerializeField] private CharacterController _Controller;
     [SerializeField] private GameManager _gameManager;
+    [SerializeField] private UIManager _uiManager;
 
     [Header("Player Settings")] [SerializeField]
     private float PlayerWalkSpeed;
@@ -38,9 +39,12 @@ public class PlayerController : MonoBehaviour
     [Header("Interaction Settings")] [SerializeField]
     private float TPPInteractionDistance;
 
+    [SerializeField] private float TPPInteractionOffset;
     [SerializeField] private float FPPInteractionDistance;
+    [SerializeField] private RaycastHit tempHitObject;
 
     private int InteractionLayerMask = 1 << 9;
+
 
     [Header("Flashlight Settings")] [SerializeField]
     private float batteriesAvailable;
@@ -109,6 +113,53 @@ public class PlayerController : MonoBehaviour
         CheckIfPlayerGrounded();
         PerformJump();
         PerformCharacterMovement();
+
+        if (IsFirstPerson)
+        {
+            if (Physics.Raycast(FPPCam.transform.position, FPPCam.transform.forward, out tempHitObject,
+                    FPPInteractionDistance, InteractionLayerMask))
+            {
+                if (tempHitObject.transform.gameObject != null)
+                {
+                    if (tempHitObject.transform.CompareTag("Battery"))
+                    {
+                        _uiManager.SetCrossHairTexture(_uiManager.HandIcon);
+                    }
+                    else if (tempHitObject.transform.CompareTag("Note"))
+                    {
+                        _uiManager.SetCrossHairTexture(_uiManager.NoteIcon);
+                    }
+                }
+            }
+            else
+            {
+                _uiManager.SetCrossHairTexture(_uiManager.Standard_Crosshair);
+            }
+        }
+        else
+        {
+            if (Physics.Raycast(TPPCam.transform.position, TPPCam.transform.forward, out tempHitObject,
+                    TPPInteractionDistance, InteractionLayerMask))
+            {
+                if (tempHitObject.transform.gameObject != null)
+                {
+                    if (tempHitObject.transform.CompareTag("Battery"))
+                    {
+                        _uiManager.SetCrossHairTexture(_uiManager.HandIcon);
+                    }
+                    else if (tempHitObject.transform.CompareTag("Note"))
+                    {
+                        _uiManager.SetCrossHairTexture(_uiManager.NoteIcon);
+                    }
+                    else
+                    {
+                        _uiManager.SetCrossHairTexture(_uiManager.Standard_Crosshair);
+                    }
+                }
+            }
+        }
+
+
         PerformInteraction();
         FlashLight();
     }
@@ -286,7 +337,9 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            Debug.DrawRay(TPPCam.transform.position, TPPCam.transform.forward * TPPInteractionDistance, Color.red);
+            Debug.DrawRay(
+                TPPCam.transform.position + TPPCam.transform.forward * TPPInteractionOffset ,
+                TPPCam.transform.forward * TPPInteractionDistance, Color.red);
         }
 
         if (_input.interact_Action.WasPressedThisFrame())
