@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float TPPInteractionOffset;
     [SerializeField] private float FPPInteractionDistance;
-    [SerializeField] private RaycastHit tempHitObject;
+    [SerializeField] public RaycastHit tempHitObject;
 
     private int InteractionLayerMask = 1 << 9;
 
@@ -138,7 +138,8 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if (Physics.Raycast(TPPCam.transform.position, TPPCam.transform.forward, out tempHitObject,
+            if (Physics.Raycast(TPPCam.transform.position + TPPCam.transform.forward * TPPInteractionOffset,
+                    TPPCam.transform.forward, out tempHitObject,
                     TPPInteractionDistance, InteractionLayerMask))
             {
                 if (tempHitObject.transform.gameObject != null)
@@ -151,11 +152,11 @@ public class PlayerController : MonoBehaviour
                     {
                         _uiManager.SetCrossHairTexture(_uiManager.NoteIcon);
                     }
-                    else
-                    {
-                        _uiManager.SetCrossHairTexture(_uiManager.Standard_Crosshair);
-                    }
                 }
+            }
+            else
+            {
+                _uiManager.SetCrossHairTexture(_uiManager.Standard_Crosshair);
             }
         }
 
@@ -338,7 +339,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             Debug.DrawRay(
-                TPPCam.transform.position + TPPCam.transform.forward * TPPInteractionOffset ,
+                TPPCam.transform.position + TPPCam.transform.forward * TPPInteractionOffset,
                 TPPCam.transform.forward * TPPInteractionDistance, Color.red);
         }
 
@@ -353,7 +354,9 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                HitSomething = Physics.Raycast(TPPCam.transform.position, TPPCam.transform.forward, out hit,
+                HitSomething = Physics.Raycast(
+                    TPPCam.transform.position + TPPCam.transform.forward * TPPInteractionOffset,
+                    TPPCam.transform.forward, out hit,
                     TPPInteractionDistance);
             }
 

@@ -7,13 +7,15 @@ using UnityEngine.UIElements;
 
 public class UIManager : MonoBehaviour
 {
+    [SerializeField] public PlayerController PlayerController;
+
     [SerializeField] public Texture HandIcon, NoteIcon, Standard_Crosshair;
 
     [SerializeField] public GameObject CrossHair_UI;
 
-    [SerializeField] public TextMeshPro InteractText;
+    [SerializeField] public TextMeshProUGUI InteractText;
 
-    [SerializeField] public TextMeshPro TotalNotesCollectedText;
+    [SerializeField] public TextMeshProUGUI TotalNotesCollectedText;
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +26,19 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if ((CrossHair_UI.GetComponent<RawImage>().texture == HandIcon ||
+             CrossHair_UI.GetComponent<RawImage>().texture == NoteIcon) &&
+            PlayerController.tempHitObject.transform.gameObject != null)
+        {
+            InteractText.text = "Press E to pick up " + PlayerController.tempHitObject.transform.tag;
+            InteractText.gameObject.SetActive(true);
+        }
+        else
+        {
+            InteractText.gameObject.SetActive(false);
+        }
     }
+
 
     public void SetCrossHairTexture(Texture crossHairTextureToSetTo)
     {
