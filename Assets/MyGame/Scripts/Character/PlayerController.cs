@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private PlayerInputController _input;
     [SerializeField] private CharacterController _Controller;
+    [SerializeField] private GameManager _gameManager;
 
     [Header("Player Settings")] [SerializeField]
     private float PlayerWalkSpeed;
@@ -32,8 +33,21 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float MouseMovementMinimumThreshhold = 0.01f;
     [SerializeField] private float MaxMouseUpClamp;
     [SerializeField] private float MaxMouseDownClamp;
-
     private float _cinemachineTargetPitch;
+
+    [Header("Interaction Settings")] [SerializeField]
+    private float TPPInteractionDistance;
+
+    [SerializeField] private float FPPInteractionDistance;
+
+    private int InteractionLayerMask = 1 << 9;
+
+    [Header("Flashlight Settings")] [SerializeField]
+    private float batteriesAvailable;
+
+    [SerializeField] private float BatteryPercentageLeft;
+    [SerializeField] private bool FlashLightOn = true;
+    [SerializeField] private Light flashLight_Light;
 
     [Header("General Settings")] [SerializeField]
     private float Gravity;
@@ -95,6 +109,8 @@ public class PlayerController : MonoBehaviour
         CheckIfPlayerGrounded();
         PerformJump();
         PerformCharacterMovement();
+        PerformInteraction();
+        FlashLight();
     }
 
     private void OnDrawGizmos()
@@ -227,6 +243,7 @@ public class PlayerController : MonoBehaviour
     {
         if (_input.switchPerspectiveCamera_Action.WasPressedThisFrame())
         {
+            IsFirstPerson = !IsFirstPerson;
             if (IsFirstPerson)
             {
                 FPPCam.Priority = 1;
@@ -237,8 +254,6 @@ public class PlayerController : MonoBehaviour
                 FPPCam.Priority = 0;
                 TPPCam.Priority = 1;
             }
-
-            IsFirstPerson = !IsFirstPerson;
         }
     }
 
@@ -260,6 +275,79 @@ public class PlayerController : MonoBehaviour
                 verticalVelocity += Gravity * Time.deltaTime;
             }
         }
+    }
+
+
+    private void PerformInteraction()
+    {
+        if (IsFirstPerson)
+        {
+            Debug.DrawRay(FPPCam.transform.position, FPPCam.transform.forward * FPPInteractionDistance, Color.blue);
+        }
+        else
+        {
+            Debug.DrawRay(TPPCam.transform.position, TPPCam.transform.forward * TPPInteractionDistance, Color.red);
+        }
+
+        if (_input.interact_Action.WasPressedThisFrame())
+        {
+            bool HitSomething = false;
+            RaycastHit hit;
+            if (IsFirstPerson)
+            {
+                HitSomething = Physics.Raycast(FPPCam.transform.position, FPPCam.transform.forward, out hit,
+                    FPPInteractionDistance, InteractionLayerMask);
+            }
+            else
+            {
+                HitSomething = Physics.Raycast(TPPCam.transform.position, TPPCam.transform.forward, out hit,
+                    TPPInteractionDistance);
+            }
+
+            if (HitSomething && hit.transform.gameObject != null)
+            {
+                if (hit.transform.CompareTag("Battery"))
+                {
+                    DoBatteryInteraction();
+                }
+                else if (hit.transform.CompareTag("Note"))
+                {
+                    DoNoteInteraction();
+                }
+                else
+                {
+                    Debug.Log("this is not a valid interactable.");
+                }
+            }
+            else
+            {
+                Debug.Log("we hit nothing.");
+            }
+        }
+    }
+
+    private void DoBatteryInteraction()
+    {
+        Debug.Log("i am a battery interaction");
+    }
+
+    private void DoNoteInteraction()
+    {
+        Debug.Log("i am a note interaction");
+    }
+
+    private void FlashLight()
+    {
+        if (_input.flashlight_Action.WasPressedThisFrame())
+        {
+            FlashLightOn = !FlashLightOn;
+            flashLight_Light.enabled = FlashLightOn;
+        }
+    }
+
+    private void ScaleLightIntensityWithBatteryPercentage()
+    {
+        //fill this in.
     }
 
     //Function made to return the angle back to 0 when it goes past 360 degrees and vice versa, if it goes lower then 0 it goes to 360.

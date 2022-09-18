@@ -17,7 +17,9 @@ public class PlayerInputController : MonoBehaviour
         sprint_Action,
         switchPerspectiveCamera_Action,
         interact_Action,
-        pause_Action;
+        pause_Action,
+        flashlight_Action;
+    
 
     public Vector2 move, look;
 
@@ -40,6 +42,7 @@ public class PlayerInputController : MonoBehaviour
         switchPerspectiveCamera_Action = _inputActionMap.FindAction("SwitchCamera");
         interact_Action = _inputActionMap.FindAction("Interact");
         pause_Action = _inputActionMap.FindAction("Pause");
+        flashlight_Action = _inputActionMap.FindAction("FlashLight");        
 
         move_Action.performed += OnMove;
         move_Action.canceled += OnEndMove;
