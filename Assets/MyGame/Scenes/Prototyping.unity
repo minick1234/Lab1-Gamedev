@@ -1899,6 +1899,7 @@ GameObject:
   - component: {fileID: 1809948762}
   - component: {fileID: 1809948763}
   - component: {fileID: 1809948764}
+  - component: {fileID: 1809948765}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -1955,6 +1956,19 @@ MonoBehaviour:
   CrossHair_UI: {fileID: 547602280}
   InteractText: {fileID: 719934321}
   TotalNotesCollectedText: {fileID: 0}
+--- !u!114 &1809948765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809948761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd1d8851ee5ef2941a99cb03c755257f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoundEffects: []
 --- !u!1 &2143935795
 GameObject:
   m_ObjectHideFlags: 0
@@ -4197,15 +4211,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1174380188446371}
-  m_LocalRotation: {x: 0.70710576, y: -0, z: -0, w: 0.7071079}
-  m_LocalPosition: {x: -1.229, y: 1.8834554, z: 12.888912}
+  m_LocalRotation: {x: 0.000000034436265, y: -0.7071058, z: 0.70710784, w: 0.000000052154057}
+  m_LocalPosition: {x: -4.548, y: 1.883, z: 13.958}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 756736192}
   m_Father: {fileID: 0}
   m_RootOrder: 11
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 180}
 --- !u!4 &4408952661221245
 Transform:
   m_ObjectHideFlags: 0
@@ -4290,15 +4304,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1236413838628051}
-  m_LocalRotation: {x: 0.70710576, y: -0, z: -0, w: 0.7071079}
-  m_LocalPosition: {x: -4.5484924, y: 1.8721067, z: 12.888914}
+  m_LocalRotation: {x: 0.000000034436265, y: -0.7071058, z: 0.70710784, w: 0.000000052154057}
+  m_LocalPosition: {x: -1.2285084, y: 1.8716519, z: 13.958003}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1706671318}
   m_Father: {fileID: 0}
   m_RootOrder: 13
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 180}
 --- !u!4 &4428742636643954
 Transform:
   m_ObjectHideFlags: 0
