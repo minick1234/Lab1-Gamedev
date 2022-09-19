@@ -111,8 +111,8 @@ public class PlayerController : MonoBehaviour
     {
         ApplyGravity();
         CheckIfPlayerGrounded();
-        PerformJump();
         PerformCharacterMovement();
+        PerformJump();
 
         if (IsFirstPerson)
         {
@@ -253,8 +253,8 @@ public class PlayerController : MonoBehaviour
             inputDirection = transform.right * _input.move.x + transform.forward * _input.move.y;
         }
 
-        _Controller.Move(inputDirection.normalized * (currCalculatedSpeed * Time.deltaTime)
-                         + new Vector3(0.0f, verticalVelocity, 0.0f));
+        _Controller.Move(inputDirection * (currCalculatedSpeed * Time.deltaTime)
+                         + (Vector3.up * (verticalVelocity * Time.deltaTime)));
     }
 
     private void CheckIfPlayerGrounded()
@@ -324,7 +324,7 @@ public class PlayerController : MonoBehaviour
         {
             if (Mathf.Abs(verticalVelocity) < terminalVelocity)
             {
-                verticalVelocity += Gravity * Time.deltaTime;
+                verticalVelocity += Gravity;
             }
         }
     }
