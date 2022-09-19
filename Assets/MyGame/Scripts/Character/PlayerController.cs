@@ -79,6 +79,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private LayerMask groundLayer;
 
+    [SerializeField] private int ExceptionFromGroundLayer = (1 << 7);
+    
     //These are for the gizmo.
     [SerializeField] private Color GroundedColor;
     [SerializeField] private Color OffGroundColor;
@@ -254,12 +256,12 @@ public class PlayerController : MonoBehaviour
         }
 
         _Controller.Move(inputDirection * (currCalculatedSpeed * Time.deltaTime)
-                         + (Vector3.up * (verticalVelocity * Time.deltaTime)));
+                         + (Vector3.up * (verticalVelocity) * Time.deltaTime));
     }
 
     private void CheckIfPlayerGrounded()
     {
-        IsGrounded = Physics.CheckSphere(groundCheck_GO.transform.position, GroundedAreaRadius, groundLayer);
+        IsGrounded = Physics.CheckSphere(groundCheck_GO.transform.position, GroundedAreaRadius, ~ExceptionFromGroundLayer);
     }
 
     private void PerformJump()
@@ -316,7 +318,7 @@ public class PlayerController : MonoBehaviour
         {
             if (verticalVelocity < 0.0f)
             {
-                verticalVelocity = -2f;
+                verticalVelocity = -2f * Time.deltaTime;
             }
         }
 
@@ -324,7 +326,7 @@ public class PlayerController : MonoBehaviour
         {
             if (Mathf.Abs(verticalVelocity) < terminalVelocity)
             {
-                verticalVelocity += Gravity;
+                verticalVelocity += Gravity * Time.deltaTime;
             }
         }
     }

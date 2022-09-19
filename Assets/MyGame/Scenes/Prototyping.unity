@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.009031611, g: 0.009378396, b: 0.009611773, a: 1}
+  m_IndirectSpecularColor: {r: 0.0090316245, g: 0.00937841, b: 0.009611784, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1275,7 +1275,7 @@ MonoBehaviour:
   verticalVelocity: -2
   speedRateChange: 5
   rotationVelocity: 0
-  DesiredJumpHeight: 3
+  DesiredJumpHeight: 0.5
   MouseSensitivity: 0.15
   InvertMouseMovement: 0
   MouseMovementMinimumThreshhold: 0.01
@@ -1283,7 +1283,7 @@ MonoBehaviour:
   MaxMouseDownClamp: -80
   TPPInteractionDistance: 2
   TPPInteractionOffset: 1
-  FPPInteractionDistance: 1.25
+  FPPInteractionDistance: 1.5
   batteriesAvailable: 5
   BatteryPercentageLeft: 100
   FlashLightOn: 1
@@ -2448,7 +2448,7 @@ GameObject:
   - component: {fileID: 33683188483906538}
   - component: {fileID: 23867519710156112}
   - component: {fileID: 64212029247483108}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Prop_Table_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
