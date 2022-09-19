@@ -1934,7 +1934,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34d064b5c49417841b0c63af0e6645a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Notes: []
+  NotesInScene: []
   NotesCollected: 0
   Batteries: []
 --- !u!114 &1809948764
@@ -1968,7 +1968,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd1d8851ee5ef2941a99cb03c755257f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SoundEffects: []
+  SoundEffects:
+  - SoundEffectName: 
+    SoundEffectClip: {fileID: 0}
+    SoundEffectVolume: 0
+    SoundEffectVolumeVariance: 0
+    VolumeIntensity: 0
+    SoundEffectPitch: 0
+    SoundEffectPitchVariance: 0
+    PitchIntensity: 0
+    SoundEffectPriority: 0
+    LoopSoundEffect: 0
+    IsBackGroundMusic: 0
+    SoundEffectAudioSource: {fileID: 0}
 --- !u!1 &2143935795
 GameObject:
   m_ObjectHideFlags: 0

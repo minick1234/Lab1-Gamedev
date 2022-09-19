@@ -254,7 +254,7 @@ public class PlayerController : MonoBehaviour
         }
 
         _Controller.Move(inputDirection.normalized * (currCalculatedSpeed * Time.deltaTime)
-                         + new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
+                         + new Vector3(0.0f, verticalVelocity, 0.0f));
     }
 
     private void CheckIfPlayerGrounded()

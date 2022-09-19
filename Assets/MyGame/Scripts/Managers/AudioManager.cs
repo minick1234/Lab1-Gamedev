@@ -25,7 +25,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySoundEffectOneTime(string nameOfSoundEffect)
     {
-        SoundEffect s = SoundEffects.Find(soundEffect => soundEffect.name == nameOfSoundEffect);
+        SoundEffect s = SoundEffects.Find(soundEffect => soundEffect.SoundEffectName == nameOfSoundEffect);
         if (s == null)
         {
             Debug.LogWarning("Sound: " + name + " not found!");
@@ -35,7 +35,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySoundEffectOneTimeAtLocation(string nameOfSoundEffect, Transform locationToPlaySound)
     {
-        SoundEffect s = SoundEffects.Find(soundEffect => soundEffect.name == nameOfSoundEffect);
+        SoundEffect s = SoundEffects.Find(soundEffect => soundEffect.SoundEffectName == nameOfSoundEffect);
         if (s == null)
         {
             Debug.LogWarning("Sound: " + name + " not found!");
@@ -47,7 +47,7 @@ public class AudioManager : MonoBehaviour
 
     public void StopPlayingSoundEffect(string nameOfSoundEffect)
     {
-        SoundEffect s = SoundEffects.Find(soundEffect => soundEffect.name == nameOfSoundEffect);
+        SoundEffect s = SoundEffects.Find(soundEffect => soundEffect.SoundEffectName == nameOfSoundEffect);
         if (s == null)
         {
             Debug.LogWarning("Sound: " + name + " not found!");

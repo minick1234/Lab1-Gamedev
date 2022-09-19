@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     //Make this random eventually but as of right now it is static.
-    public List<GameObject> Notes = new List<GameObject>();
+    public List<GameObject> NotesInScene = new List<GameObject>();
     public float NotesCollected = 0;
 
 
