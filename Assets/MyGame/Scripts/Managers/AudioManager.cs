@@ -5,52 +5,56 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    [SerializeField] public List<SoundEffect> SoundEffects = new List<SoundEffect>();
+    [SerializeField] public List<SoundEffect> AvailableSoundEffects = new List<SoundEffect>();
 
-    //Test to see if i can get away with playing global sounds, otherwise i need to implement a system for global sounds.
+    [SerializeField] public List<SoundEffect> AudioSourcesInScene = new List<SoundEffect>();
 
-    // Start is called before the first frame update
-    void Awake()
+    private void Update()
     {
-        foreach (var sound in SoundEffects)
+        foreach (var soundEffect in AudioSourcesInScene)
         {
-            sound.SoundEffectAudioSource = gameObject.AddComponent<AudioSource>();
-            sound.SoundEffectAudioSource.clip = sound.SoundEffectClip;
-            sound.SoundEffectAudioSource.volume = sound.SoundEffectVolume;
-            sound.SoundEffectAudioSource.pitch = sound.SoundEffectPitch;
-            sound.SoundEffectAudioSource.loop = sound.LoopSoundEffect;
-            sound.SoundEffectAudioSource.priority = sound.SoundEffectPriority;
+            if (soundEffect.SoundEffectAudioSource.gameObject.GetComponent<AudioSource>() != null &&
+                !soundEffect.SoundEffectAudioSource.isPlaying)
+            {
+                Destroy(soundEffect.SoundEffectAudioSource.gameObject.GetComponent<AudioSource>());
+                AudioSourcesInScene.Remove(soundEffect);
+            }
         }
+    }
+
+    public void SpawnAudioSource(AudioSource audioSource, SoundEffect soundEffect)
+    {
+        soundEffect.SoundEffectAudioSource = audioSource;
+        soundEffect.SoundEffectAudioSource.clip = soundEffect.SoundEffectClip;
+        soundEffect.SoundEffectAudioSource.volume = soundEffect.SoundEffectVolume;
+        soundEffect.SoundEffectAudioSource.pitch = soundEffect.SoundEffectPitch;
+        soundEffect.SoundEffectAudioSource.loop = soundEffect.LoopSoundEffect;
+        soundEffect.SoundEffectAudioSource.priority = soundEffect.SoundEffectPriority;
     }
 
     public void PlaySoundEffectOneTime(string nameOfSoundEffect)
     {
-        SoundEffect s = SoundEffects.Find(soundEffect => soundEffect.SoundEffectName == nameOfSoundEffect);
+        SoundEffect s = AvailableSoundEffects.Find(soundEffect => soundEffect.SoundEffectName == nameOfSoundEffect);
+        AudioSource audiosource = gameObject.AddComponent<AudioSource>();
         if (s == null)
         {
-            Debug.LogWarning("Sound: " + name + " not found!");
-            return;
-        }
-    }
-
-    public void PlaySoundEffectOneTimeAtLocation(string nameOfSoundEffect, Transform locationToPlaySound)
-    {
-        SoundEffect s = SoundEffects.Find(soundEffect => soundEffect.SoundEffectName == nameOfSoundEffect);
-        if (s == null)
-        {
-            Debug.LogWarning("Sound: " + name + " not found!");
+            Debug.LogWarning("Sound: " + nameOfSoundEffect + " not found!");
             return;
         }
 
-        AudioSource.PlayClipAtPoint(s.SoundEffectClip, locationToPlaySound.position, s.SoundEffectVolume);
+        SpawnAudioSource(audiosource, s);
+        s.SoundEffectAudioSource.PlayOneShot(s.SoundEffectClip);
+        AudioSourcesInScene.Add(s);
     }
 
-    public void StopPlayingSoundEffect(string nameOfSoundEffect)
+    public void StopPlayingSoundEffect(string nameOfSoundEffect, AudioSource objectsAudioSource)
     {
-        SoundEffect s = SoundEffects.Find(soundEffect => soundEffect.SoundEffectName == nameOfSoundEffect);
+        SoundEffect s = AudioSourcesInScene.Find(soundEffect =>
+            soundEffect.SoundEffectName == nameOfSoundEffect &&
+            soundEffect.SoundEffectAudioSource == objectsAudioSource);
         if (s == null)
         {
-            Debug.LogWarning("Sound: " + name + " not found!");
+            Debug.LogWarning("Sound: " + nameOfSoundEffect + " not found!");
             return;
         }
 
@@ -63,5 +67,21 @@ public class AudioManager : MonoBehaviour
                                              s.SoundEffectPitchVariance / 2f));
 
         s.SoundEffectAudioSource.Stop();
+        AudioSourcesInScene.Remove(s);
+    }
+
+    public void PlaySoundAtGameObject(string nameOfSoundEffect, GameObject gameObjectToSpawnAt)
+    {
+        SoundEffect s = AvailableSoundEffects.Find(soundEffect => soundEffect.SoundEffectName == nameOfSoundEffect);
+        AudioSource audiosource = gameObjectToSpawnAt.AddComponent<AudioSource>();
+        if (s == null)
+        {
+            Debug.LogWarning("Sound: " + nameOfSoundEffect + " not found!");
+            return;
+        }
+
+        SpawnAudioSource(audiosource, s);
+        s.SoundEffectAudioSource.PlayOneShot(s.SoundEffectClip);
+        AudioSourcesInScene.Add(s);
     }
 }
