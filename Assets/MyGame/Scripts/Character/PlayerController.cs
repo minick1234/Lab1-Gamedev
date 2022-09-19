@@ -77,10 +77,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool IsGrounded;
     [SerializeField] private float GroundedAreaRadius = 0.35f;
 
-    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask PlayerExceptionGroundMask;
 
-    [SerializeField] private int ExceptionFromGroundLayer = (1 << 7);
-    
     //These are for the gizmo.
     [SerializeField] private Color GroundedColor;
     [SerializeField] private Color OffGroundColor;
@@ -261,7 +259,8 @@ public class PlayerController : MonoBehaviour
 
     private void CheckIfPlayerGrounded()
     {
-        IsGrounded = Physics.CheckSphere(groundCheck_GO.transform.position, GroundedAreaRadius, ~ExceptionFromGroundLayer);
+        IsGrounded = Physics.CheckSphere(groundCheck_GO.transform.position, GroundedAreaRadius,
+            ~PlayerExceptionGroundMask);
     }
 
     private void PerformJump()
