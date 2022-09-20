@@ -59,7 +59,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool IsFirstPerson;
 
     [SerializeField] private CinemachineVirtualCamera FPPCam, TPPCam;
-
+    [SerializeField] private GameObject PlayerMesh, PlayerHairMesh;
+    [SerializeField] private GameObject PlayerRigHeadAim, PlayerThirdPersonAimPoint;
     [Header("Input TimeOuts")] [SerializeField]
     private float JumpTimeout = 0.1f;
 
@@ -96,11 +97,31 @@ public class PlayerController : MonoBehaviour
 
         if (IsFirstPerson)
         {
+            if (PlayerMesh != null)
+            {
+                PlayerMesh.gameObject.SetActive(false);
+            }
+
+            if (PlayerHairMesh != null)
+            {
+                PlayerHairMesh.gameObject.SetActive(false);
+            }
+
             FPPCam.Priority = 1;
             TPPCam.Priority = 0;
         }
         else
         {
+            if (PlayerMesh != null)
+            {
+                PlayerMesh.gameObject.SetActive(true);
+            }
+
+            if (PlayerHairMesh != null)
+            {
+                PlayerHairMesh.gameObject.SetActive(true);
+            }
+
             FPPCam.Priority = 0;
             TPPCam.Priority = 1;
         }
@@ -109,11 +130,13 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+        PlayerRigHeadAim.transform.position = PlayerThirdPersonAimPoint.transform.position;
+        
         ApplyGravity();
         CheckIfPlayerGrounded();
         PerformCharacterMovement();
         PerformJump();
-
         if (IsFirstPerson)
         {
             if (Physics.Raycast(FPPCam.transform.position, FPPCam.transform.forward, out tempHitObject,
@@ -159,7 +182,6 @@ public class PlayerController : MonoBehaviour
                 _uiManager.SetCrossHairTexture(_uiManager.Standard_Crosshair);
             }
         }
-
 
         PerformInteraction();
         FlashLight();
@@ -222,14 +244,12 @@ public class PlayerController : MonoBehaviour
     {
         float targetSpeed = _input.sprint ? PlayerSprintSpeed : PlayerWalkSpeed;
 
-        //This is somewhat redundant as we handle in the input controller that when we lift from the key and cancel the event
-        //it sets the vector2 of move to 0,0. but just for making sure we do this.
         if (_input.move == Vector2.zero) targetSpeed = 0.0f;
 
         // a reference to the players current horizontal velocity
         float currentHorizontalSpeed = new Vector3(_Controller.velocity.x, 0f, _Controller.velocity.z).magnitude;
 
-        float speedOffset = 0.05f;
+        float speedOffset = 0.1f;
 
         // accelerate or decelerate to target speed
         if (currentHorizontalSpeed < targetSpeed - speedOffset || currentHorizontalSpeed > targetSpeed + speedOffset)
@@ -253,7 +273,7 @@ public class PlayerController : MonoBehaviour
             inputDirection = transform.right * _input.move.x + transform.forward * _input.move.y;
         }
 
-        _Controller.Move(inputDirection * (currCalculatedSpeed * Time.deltaTime)
+        _Controller.Move(inputDirection.normalized * (currCalculatedSpeed * Time.deltaTime)
                          + (Vector3.up * (verticalVelocity) * Time.deltaTime));
     }
 
@@ -299,11 +319,31 @@ public class PlayerController : MonoBehaviour
             IsFirstPerson = !IsFirstPerson;
             if (IsFirstPerson)
             {
+                if (PlayerHairMesh != null)
+                {
+                    PlayerHairMesh.gameObject.SetActive(false);
+                }
+
+                if (PlayerMesh != null)
+                {
+                    PlayerMesh.gameObject.SetActive(false);
+                }
+
                 FPPCam.Priority = 1;
                 TPPCam.Priority = 0;
             }
             else
             {
+                if (PlayerHairMesh != null)
+                {
+                    PlayerHairMesh.gameObject.SetActive(true);
+                }
+
+                if (PlayerMesh != null)
+                {
+                    PlayerMesh.gameObject.SetActive(true);
+                }
+
                 FPPCam.Priority = 0;
                 TPPCam.Priority = 1;
             }
@@ -317,7 +357,7 @@ public class PlayerController : MonoBehaviour
         {
             if (verticalVelocity < 0.0f)
             {
-                verticalVelocity = -2f * Time.deltaTime;
+                verticalVelocity = -2f;
             }
         }
 
@@ -409,7 +449,7 @@ public class PlayerController : MonoBehaviour
 
     //Function made to return the angle back to 0 when it goes past 360 degrees and vice versa, if it goes lower then 0 it goes to 360.
     //after that we clamp the values based on the mouse clamp values we specify in the inspector.
-    private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
+    private float ClampAngle(float lfAngle, float lfMin, float lfMax)
     {
         if (lfAngle < -360f) lfAngle += 360f;
         if (lfAngle > 360f) lfAngle -= 360f;
