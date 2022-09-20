@@ -1599,8 +1599,9 @@ MonoBehaviour:
   _Controller: {fileID: 1136212094}
   _gameManager: {fileID: 1809948763}
   _uiManager: {fileID: 1809948764}
-  PlayerWalkSpeed: 5
-  PlayerSprintSpeed: 10
+  playerAnimator: {fileID: 4782911807603983}
+  PlayerWalkSpeed: 3
+  PlayerSprintSpeed: 6
   currCalculatedSpeed: 0
   terminalVelocity: 53
   verticalVelocity: -2
@@ -1611,7 +1612,7 @@ MonoBehaviour:
   InvertMouseMovement: 0
   MouseMovementMinimumThreshhold: 0.01
   MaxMouseUpClamp: 58
-  MaxMouseDownClamp: -58
+  MaxMouseDownClamp: -48
   TPPInteractionDistance: 2
   TPPInteractionOffset: 1
   FPPInteractionDistance: 1.5
@@ -1620,7 +1621,7 @@ MonoBehaviour:
   FlashLightOn: 1
   flashLight_Light: {fileID: 0}
   Gravity: -50
-  IsFirstPerson: 1
+  IsFirstPerson: 0
   FPPCam: {fileID: 1060656419}
   TPPCam: {fileID: 1065231652}
   PlayerMesh: {fileID: 1770125155787906}
@@ -1656,6 +1657,7 @@ MonoBehaviour:
     m_Asset: {fileID: 0}
     m_Actions: []
     m_Bindings: []
+  playerAnimator: {fileID: 4782911807603983}
   move_Action:
     m_Name: Move_Action
     m_Type: 0
@@ -2061,8 +2063,8 @@ MonoBehaviour:
     m_Offset: {x: 0, y: 0, z: 0}
     m_MinLimit: -180
     m_MaxLimit: 180
-    m_AimAxis: 4
-    m_UpAxis: 2
+    m_AimAxis: 3
+    m_UpAxis: 1
     m_WorldUpType: 0
     m_WorldUpObject: {fileID: 0}
     m_WorldUpAxis: 2

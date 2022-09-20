@@ -9,6 +9,8 @@ public class PlayerInputController : MonoBehaviour
 {
     [SerializeField] private InputActionAsset controls;
     [SerializeField] private InputActionMap _inputActionMap;
+    [SerializeField] private Animator playerAnimator;
+
 
     public InputAction move_Action,
         look_Action,
@@ -19,7 +21,7 @@ public class PlayerInputController : MonoBehaviour
         interact_Action,
         pause_Action,
         flashlight_Action;
-    
+
 
     public Vector2 move, look;
 
@@ -42,7 +44,7 @@ public class PlayerInputController : MonoBehaviour
         switchPerspectiveCamera_Action = _inputActionMap.FindAction("SwitchCamera");
         interact_Action = _inputActionMap.FindAction("Interact");
         pause_Action = _inputActionMap.FindAction("Pause");
-        flashlight_Action = _inputActionMap.FindAction("FlashLight");        
+        flashlight_Action = _inputActionMap.FindAction("FlashLight");
 
         move_Action.performed += OnMove;
         move_Action.canceled += OnEndMove;
@@ -167,6 +169,7 @@ public class PlayerInputController : MonoBehaviour
     private void SprintInput(bool newSprintState)
     {
         sprint = newSprintState;
+        playerAnimator.SetBool("IsSprinting", newSprintState);
     }
 
     private void CrouchInput(bool newCrouchState)

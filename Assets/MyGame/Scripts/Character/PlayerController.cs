@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private CharacterController _Controller;
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private UIManager _uiManager;
+    [SerializeField] private Animator playerAnimator;
+
 
     [Header("Player Settings")] [SerializeField]
     private float PlayerWalkSpeed;
@@ -61,6 +63,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera FPPCam, TPPCam;
     [SerializeField] private GameObject PlayerMesh, PlayerHairMesh;
     [SerializeField] private GameObject PlayerRigHeadAim, PlayerThirdPersonAimPoint;
+
     [Header("Input TimeOuts")] [SerializeField]
     private float JumpTimeout = 0.1f;
 
@@ -130,9 +133,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
         PlayerRigHeadAim.transform.position = PlayerThirdPersonAimPoint.transform.position;
-        
+
         ApplyGravity();
         CheckIfPlayerGrounded();
         PerformCharacterMovement();
@@ -273,6 +275,8 @@ public class PlayerController : MonoBehaviour
             inputDirection = transform.right * _input.move.x + transform.forward * _input.move.y;
         }
 
+        playerAnimator.SetFloat("MoveX", _input.move.x);
+        playerAnimator.SetFloat("MoveY", _input.move.y);
         _Controller.Move(inputDirection.normalized * (currCalculatedSpeed * Time.deltaTime)
                          + (Vector3.up * (verticalVelocity) * Time.deltaTime));
     }
