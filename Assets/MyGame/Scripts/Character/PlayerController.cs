@@ -660,17 +660,20 @@ public class PlayerController : MonoBehaviour
     {
         if (_input.flashlight_Action.WasPressedThisFrame() && isFlashlightPickedUp && !isFlashLightEquipt)
         {
+            Debug.Log("pulling out the flashlight");
             isFlashLightEquipt = true;
         }
         else if (_input.flashlight_Action.WasPressedThisFrame() && isFlashlightPickedUp && isFlashLightEquipt)
         {
             isFlashLightEquipt = false;
+            Debug.Log("Putting away the flashlight");
         }
 
         if (_input.flashlight_Activation_Action.WasPressedThisFrame() && isFlashlightPickedUp && isFlashLightEquipt)
         {
             FlashLightOn = !FlashLightOn;
             flashLight_Light.enabled = FlashLightOn;
+            Debug.Log("activiating / deactivation");
         }
     }
 

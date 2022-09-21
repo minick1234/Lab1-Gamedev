@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.009031611, g: 0.009378396, b: 0.009611773, a: 1}
+  m_IndirectSpecularColor: {r: 0.009031617, g: 0.009378414, b: 0.009611791, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -663,7 +663,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3c430f382484144e925c097c2d33cfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Weight: 0.502
+  m_Weight: 1
   m_Data:
     m_ConstrainedObject: {fileID: 661161020}
     m_SourceObjects:
@@ -693,8 +693,8 @@ MonoBehaviour:
         transform: {fileID: 0}
         weight: 0
     m_Offset: {x: 0, y: 0, z: 0}
-    m_MinLimit: -180
-    m_MaxLimit: 180
+    m_MinLimit: -40
+    m_MaxLimit: 85
     m_AimAxis: 3
     m_UpAxis: 1
     m_WorldUpType: 0
@@ -1899,7 +1899,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1359453212}
-  - component: {fileID: 1359453213}
   m_Layer: 0
   m_Name: FlashlightRotator_Container
   m_TagString: Untagged
@@ -1923,60 +1922,6 @@ Transform:
   m_Father: {fileID: 850781348}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1359453213
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1359453211}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3c430f382484144e925c097c2d33cfe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Weight: 0.502
-  m_Data:
-    m_ConstrainedObject: {fileID: 661161020}
-    m_SourceObjects:
-      m_Length: 1
-      m_Item0:
-        transform: {fileID: 887389873}
-        weight: 1
-      m_Item1:
-        transform: {fileID: 0}
-        weight: 0
-      m_Item2:
-        transform: {fileID: 0}
-        weight: 0
-      m_Item3:
-        transform: {fileID: 0}
-        weight: 0
-      m_Item4:
-        transform: {fileID: 0}
-        weight: 0
-      m_Item5:
-        transform: {fileID: 0}
-        weight: 0
-      m_Item6:
-        transform: {fileID: 0}
-        weight: 0
-      m_Item7:
-        transform: {fileID: 0}
-        weight: 0
-    m_Offset: {x: 0, y: 0, z: 0}
-    m_MinLimit: -180
-    m_MaxLimit: 180
-    m_AimAxis: 3
-    m_UpAxis: 1
-    m_WorldUpType: 0
-    m_WorldUpObject: {fileID: 0}
-    m_WorldUpAxis: 2
-    m_MaintainOffset: 0
-    m_ConstrainedAxes:
-      x: 1
-      y: 1
-      z: 1
 --- !u!1 &1399892262
 GameObject:
   m_ObjectHideFlags: 0
@@ -23854,6 +23799,18 @@ PrefabInstance:
       propertyPath: PlayerThirdPersonFlashlightAimPoint
       value: 
       objectReference: {fileID: 832317924}
+    - target: {fileID: 8946042515518553135, guid: a540a9125ccd5094392ceac03506683c, type: 3}
+      propertyPath: _gameManager
+      value: 
+      objectReference: {fileID: 1809948763}
+    - target: {fileID: 8946042515518553135, guid: a540a9125ccd5094392ceac03506683c, type: 3}
+      propertyPath: flashlight_Activation_Action.m_Id
+      value: efec4108-eb61-4b4e-b30b-f421f19bc0ae
+      objectReference: {fileID: 0}
+    - target: {fileID: 8946042515518553135, guid: a540a9125ccd5094392ceac03506683c, type: 3}
+      propertyPath: flashlight_Activation_Action.m_Name
+      value: Flashlight_Activation_Action
+      objectReference: {fileID: 0}
     - target: {fileID: 8946042517243455777, guid: a540a9125ccd5094392ceac03506683c, type: 3}
       propertyPath: near clip plane
       value: 0.08
@@ -23870,9 +23827,41 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -1.32
       objectReference: {fileID: 0}
+    - target: {fileID: 8946042517243455782, guid: a540a9125ccd5094392ceac03506683c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8946042517243455782, guid: a540a9125ccd5094392ceac03506683c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8946042517243455782, guid: a540a9125ccd5094392ceac03506683c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8946042517243455782, guid: a540a9125ccd5094392ceac03506683c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
     - target: {fileID: 8946042517243455783, guid: a540a9125ccd5094392ceac03506683c, type: 3}
       propertyPath: m_DefaultBlend.m_Style
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8946042517338919280, guid: a540a9125ccd5094392ceac03506683c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.0040652626
+      objectReference: {fileID: 0}
+    - target: {fileID: 8946042517338919280, guid: a540a9125ccd5094392ceac03506683c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0035179846
+      objectReference: {fileID: 0}
+    - target: {fileID: 8946042517338919280, guid: a540a9125ccd5094392ceac03506683c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7561606
+      objectReference: {fileID: 0}
+    - target: {fileID: 8946042517338919280, guid: a540a9125ccd5094392ceac03506683c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.65436405
       objectReference: {fileID: 0}
     - target: {fileID: 8946042517342740849, guid: a540a9125ccd5094392ceac03506683c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -23885,6 +23874,30 @@ PrefabInstance:
     - target: {fileID: 8946042517342740849, guid: a540a9125ccd5094392ceac03506683c, type: 3}
       propertyPath: m_LocalPosition.z
       value: -1.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 8946042517342740849, guid: a540a9125ccd5094392ceac03506683c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8946042517342740849, guid: a540a9125ccd5094392ceac03506683c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8946042517342740849, guid: a540a9125ccd5094392ceac03506683c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8946042517342740849, guid: a540a9125ccd5094392ceac03506683c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8946042517342740849, guid: a540a9125ccd5094392ceac03506683c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8946042517342740849, guid: a540a9125ccd5094392ceac03506683c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -30.9
       objectReference: {fileID: 0}
     - target: {fileID: 8946042517342740854, guid: a540a9125ccd5094392ceac03506683c, type: 3}
       propertyPath: m_Lens.NearClipPlane

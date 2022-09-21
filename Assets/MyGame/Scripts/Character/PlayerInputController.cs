@@ -10,7 +10,7 @@ public class PlayerInputController : MonoBehaviour
     [SerializeField] private InputActionAsset controls;
     [SerializeField] private InputActionMap _inputActionMap;
     [SerializeField] private Animator playerAnimator;
-
+    [SerializeField] private GameManager _gameManager;
 
     public InputAction move_Action,
         look_Action,
@@ -181,6 +181,15 @@ public class PlayerInputController : MonoBehaviour
 
     private void PauseInput(bool newPauseState)
     {
+        if (newPauseState)
+        {
+            _gameManager.PauseGame();
+        }
+        else
+        {
+            _gameManager.UnpauseGame();
+        }
+
         SetCursorState(newPauseState);
     }
 
