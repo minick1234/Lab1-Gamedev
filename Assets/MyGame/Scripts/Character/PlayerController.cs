@@ -49,11 +49,15 @@ public class PlayerController : MonoBehaviour
 
 
     [Header("Flashlight Settings")] [SerializeField]
-    private float batteriesAvailable;
+    private GameObject FlashlightOnPlayerMesh;
+
+    [SerializeField] private float batteriesAvailable;
 
     [SerializeField] private float BatteryPercentageLeft;
     [SerializeField] private bool FlashLightOn = true;
     [SerializeField] private Light flashLight_Light;
+    [SerializeField] private bool isFlashLightEquipt = false;
+    [SerializeField] private bool isFlashlightPickedUp = false;
 
     [Header("General Settings")] [SerializeField]
     private float Gravity;
@@ -63,6 +67,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera FPPCam, TPPCam;
     [SerializeField] private GameObject PlayerMesh, PlayerHairMesh;
     [SerializeField] private GameObject PlayerRigHeadAim, PlayerThirdPersonAimPoint;
+    [SerializeField] private GameObject PlayerThirdPersonSpineAimPoint;
+    [SerializeField] private GameObject PlayerSpineAim;
+    [SerializeField] private GameObject PlayerFlashLightAim;
+    [SerializeField] private GameObject PlayerThirdPersonFlashlightAimPoint;
+
 
     [Header("Input TimeOuts")] [SerializeField]
     private float JumpTimeout = 0.1f;
@@ -119,6 +128,11 @@ public class PlayerController : MonoBehaviour
                 PlayerHairMesh.gameObject.SetActive(false);
             }
 
+            if (FlashlightOnPlayerMesh != null && isFlashlightPickedUp)
+            {
+                FlashlightOnPlayerMesh.gameObject.SetActive(false);
+            }
+
             FPPCam.Priority = 1;
             TPPCam.Priority = 0;
         }
@@ -134,6 +148,11 @@ public class PlayerController : MonoBehaviour
                 PlayerHairMesh.gameObject.SetActive(true);
             }
 
+            if (FlashlightOnPlayerMesh != null && isFlashlightPickedUp)
+            {
+                FlashlightOnPlayerMesh.gameObject.SetActive(true);
+            }
+
             FPPCam.Priority = 0;
             TPPCam.Priority = 1;
         }
@@ -143,6 +162,9 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         PlayerRigHeadAim.transform.position = PlayerThirdPersonAimPoint.transform.position;
+        PlayerSpineAim.transform.position = PlayerThirdPersonSpineAimPoint.transform.position;
+        PlayerFlashLightAim.transform.position = PlayerThirdPersonFlashlightAimPoint.transform.position;
+
 
         ApplyGravity();
         CheckIfPlayerGrounded();
@@ -373,6 +395,15 @@ public class PlayerController : MonoBehaviour
                     PlayerMesh.gameObject.SetActive(false);
                 }
 
+                if (FlashlightOnPlayerMesh != null && isFlashlightPickedUp && !isFlashLightEquipt)
+                {
+                    FlashlightOnPlayerMesh.gameObject.SetActive(false);
+                }
+                else if (FlashlightOnPlayerMesh != null && isFlashlightPickedUp && isFlashLightEquipt)
+                {
+                    FlashlightOnPlayerMesh.gameObject.SetActive(true);
+                }
+
                 FPPCam.Priority = 1;
                 TPPCam.Priority = 0;
             }
@@ -386,6 +417,11 @@ public class PlayerController : MonoBehaviour
                 if (PlayerMesh != null)
                 {
                     PlayerMesh.gameObject.SetActive(true);
+                }
+
+                if (FlashlightOnPlayerMesh != null && isFlashlightPickedUp)
+                {
+                    FlashlightOnPlayerMesh.gameObject.SetActive(true);
                 }
 
                 FPPCam.Priority = 0;
@@ -449,11 +485,11 @@ public class PlayerController : MonoBehaviour
             {
                 if (hit.transform.CompareTag("Battery"))
                 {
-                    DoBatteryInteraction();
+                    DoBatteryInteraction(hit.collider.gameObject);
                 }
                 else if (hit.transform.CompareTag("Note"))
                 {
-                    DoNoteInteraction();
+                    DoNoteInteraction(hit.collider.gameObject);
                 }
                 else if ((hit.transform.CompareTag("CameraComputer")))
                 {
@@ -461,7 +497,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else if (hit.transform.CompareTag("Flashlight"))
                 {
-                    DoFlashlightInteraction();
+                    DoFlashlightInteraction(hit.collider.gameObject);
                 }
                 else
                 {
@@ -475,14 +511,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void DoBatteryInteraction()
+    private void DoBatteryInteraction(GameObject hitObject)
     {
-        Debug.Log("i am a battery interaction");
+        Debug.Log("Battery Picked up.");
+        batteriesAvailable++;
+        Destroy(hitObject);
     }
 
-    private void DoNoteInteraction()
+    private void DoNoteInteraction(GameObject hitObject)
     {
-        Debug.Log("i am a note interaction");
+        Debug.Log("Note picked up.");
+        _gameManager.NotesCollected++;
+        _gameManager.NotesInScene.Remove(hitObject);
+        Destroy(hitObject);
     }
 
     private void DoCameraComputerInteraction(GameObject hitObject)
@@ -502,9 +543,12 @@ public class PlayerController : MonoBehaviour
         _uiManager.SwitchBetweenUIType(false);
     }
 
-    private void DoFlashlightInteraction()
+    private void DoFlashlightInteraction(GameObject hitObject)
     {
         Debug.Log("i am a flashlight interaction.");
+        FlashlightOnPlayerMesh.SetActive(true);
+        isFlashlightPickedUp = true;
+        Destroy(hitObject);
     }
 
     private void RotateCameraComputerCamera()
@@ -614,7 +658,16 @@ public class PlayerController : MonoBehaviour
 
     private void FlashLight()
     {
-        if (_input.flashlight_Action.WasPressedThisFrame())
+        if (_input.flashlight_Action.WasPressedThisFrame() && isFlashlightPickedUp && !isFlashLightEquipt)
+        {
+            isFlashLightEquipt = true;
+        }
+        else if (_input.flashlight_Action.WasPressedThisFrame() && isFlashlightPickedUp && isFlashLightEquipt)
+        {
+            isFlashLightEquipt = false;
+        }
+
+        if (_input.flashlight_Activation_Action.WasPressedThisFrame() && isFlashlightPickedUp && isFlashLightEquipt)
         {
             FlashLightOn = !FlashLightOn;
             flashLight_Light.enabled = FlashLightOn;

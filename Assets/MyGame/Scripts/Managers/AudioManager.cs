@@ -13,12 +13,24 @@ public class AudioManager : MonoBehaviour
     {
         foreach (var audioSource in GameObject.FindObjectsOfType<AudioSource>())
         {
-            AudioSourcesInScene.Add(audioSource);
+            bool isIn = false;
+            foreach (var insceneaudio in AudioSourcesInScene)
+            {
+                if (audioSource == insceneaudio)
+                {
+                    isIn = true;
+                }
+            }
+
+            if (!isIn)
+            {
+                AudioSourcesInScene.Add(audioSource);
+            }
         }
 
         //As of now we assume any object marked as play on awake wants to be played from this position on awake as it would take a pretty
         //good dynamic system to manage the sounds for objects around the world. - currently its eaiser to self assign an audio source to those objects
-        //and do it manually.
+        //and do it manually annd then just let the awake function grab all items that start spawned in the scene.
         foreach (var soundEffect in AvailableSoundEffects)
         {
             if (soundEffect.IsPlayOnAwake)
@@ -30,13 +42,20 @@ public class AudioManager : MonoBehaviour
 
     private void Update()
     {
-        foreach (var soundEffect in AudioSourcesInScene)
+        for (int i = 0; i < AudioSourcesInScene.Count; i++)
         {
-            if (soundEffect != null &&
-                !soundEffect.isPlaying && !soundEffect.loop)
+            if (AudioSourcesInScene[i] != null &&
+                !AudioSourcesInScene[i].isPlaying && !AudioSourcesInScene[i].loop)
             {
-                Destroy(soundEffect);
-                AudioSourcesInScene.Remove(soundEffect);
+                AudioSourcesInScene[i] = AudioSourcesInScene[AudioSourcesInScene.Count - 1];
+                AudioSourcesInScene.RemoveAt(AudioSourcesInScene.Count - 1);
+                Destroy(AudioSourcesInScene[i]);
+                break;
+            }
+            else if (AudioSourcesInScene[i] == null)
+            {
+                AudioSourcesInScene[i] = AudioSourcesInScene[AudioSourcesInScene.Count - 1];
+                AudioSourcesInScene.RemoveAt(AudioSourcesInScene.Count - 1);
                 break;
             }
         }
@@ -52,7 +71,7 @@ public class AudioManager : MonoBehaviour
         soundEffect.SoundEffectAudioSource.priority = soundEffect.SoundEffectPriority;
     }
 
-    public void PlaySoundEffect(string nameOfSoundEffect)
+    public void PlaySoundEffectOneShot(string nameOfSoundEffect)
     {
         SoundEffect s = AvailableSoundEffects.Find(soundEffect => soundEffect.SoundEffectName == nameOfSoundEffect);
         AudioSource audiosource = gameObject.AddComponent<AudioSource>();
@@ -64,6 +83,21 @@ public class AudioManager : MonoBehaviour
 
         SpawnAudioSource(audiosource, s);
         s.SoundEffectAudioSource.PlayOneShot(s.SoundEffectClip);
+        AudioSourcesInScene.Add(audiosource);
+    }
+
+    public void PlaySoundEffect(string nameOfSoundEffect)
+    {
+        SoundEffect s = AvailableSoundEffects.Find(soundEffect => soundEffect.SoundEffectName == nameOfSoundEffect);
+        AudioSource audiosource = gameObject.AddComponent<AudioSource>();
+        if (s == null)
+        {
+            Debug.LogWarning("Sound: " + nameOfSoundEffect + " not found!");
+            return;
+        }
+
+        SpawnAudioSource(audiosource, s);
+        s.SoundEffectAudioSource.Play();
         AudioSourcesInScene.Add(audiosource);
     }
 

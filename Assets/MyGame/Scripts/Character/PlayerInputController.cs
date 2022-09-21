@@ -20,12 +20,13 @@ public class PlayerInputController : MonoBehaviour
         switchPerspectiveCamera_Action,
         interact_Action,
         pause_Action,
-        flashlight_Action;
+        flashlight_Action,
+        flashlight_Activation_Action;
 
 
     public Vector2 move, look;
 
-    public bool jump, sprint, crouch, interact, switchPerspectiveCamera, pause;
+    public bool jump, sprint, crouch, pause;
 
     [Header("Mouse Settings")] public bool cursorLocked = false;
     public bool cursorInputForLook = true;
@@ -45,6 +46,7 @@ public class PlayerInputController : MonoBehaviour
         interact_Action = _inputActionMap.FindAction("Interact");
         pause_Action = _inputActionMap.FindAction("Pause");
         flashlight_Action = _inputActionMap.FindAction("FlashLight");
+        flashlight_Activation_Action = _inputActionMap.FindAction("FlashLightActivation");
 
         move_Action.performed += OnMove;
         move_Action.canceled += OnEndMove;
