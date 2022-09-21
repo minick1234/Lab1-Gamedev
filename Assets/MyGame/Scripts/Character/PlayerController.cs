@@ -491,6 +491,12 @@ public class PlayerController : MonoBehaviour
         FPPCam.Priority = 0;
         TPPCam.Priority = 0;
         IsConnectedToComputer = true;
+        if (IsFirstPerson)
+        {
+            PlayerHairMesh.SetActive(true);
+            PlayerMesh.SetActive(true);
+        }
+
         _uiManager.SwitchBetweenUIType(false);
     }
 
@@ -520,6 +526,12 @@ public class PlayerController : MonoBehaviour
 
             IsConnectedToComputer = false;
             _uiManager.SwitchBetweenUIType(true);
+            if (IsFirstPerson)
+            {
+                PlayerHairMesh.SetActive(false);
+                PlayerMesh.SetActive(false);
+            }
+
             cci.CurrentViewingCamera.GetComponentInChildren<CinemachineVirtualCamera>().Priority = 0;
             Debug.Log("Disconnected from the computer.");
         }

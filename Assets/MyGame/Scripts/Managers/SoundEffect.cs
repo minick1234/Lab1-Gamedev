@@ -12,19 +12,15 @@ public class SoundEffect
     [Header("Volume Settings")] [Range(0f, 1f)]
     public float SoundEffectVolume;
 
-    public float SoundEffectVolumeVariance;
-    public float VolumeIntensity;
-
     [Header("Pitch Setting")] [Range(0f, 1f)]
     public float SoundEffectPitch;
-
-    public float SoundEffectPitchVariance;
-    public float PitchIntensity;
 
     [Header("General Settings")] [Range(0, 256)]
     public int SoundEffectPriority;
 
     public bool LoopSoundEffect;
+
+    public bool IsPlayOnAwake;
 
     //Might make this more specific like a custom enum, in which you define a background sound, or item sound, or whatever, to make it easier to search for
     //then we can make it play a random sound based on the valid inputs of the enum.

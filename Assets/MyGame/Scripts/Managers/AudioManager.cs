@@ -15,6 +15,17 @@ public class AudioManager : MonoBehaviour
         {
             AudioSourcesInScene.Add(audioSource);
         }
+
+        //As of now we assume any object marked as play on awake wants to be played from this position on awake as it would take a pretty
+        //good dynamic system to manage the sounds for objects around the world. - currently its eaiser to self assign an audio source to those objects
+        //and do it manually.
+        foreach (var soundEffect in AvailableSoundEffects)
+        {
+            if (soundEffect.IsPlayOnAwake)
+            {
+                PlaySoundEffect(soundEffect.SoundEffectName);
+            }
+        }
     }
 
     private void Update()
@@ -22,7 +33,7 @@ public class AudioManager : MonoBehaviour
         foreach (var soundEffect in AudioSourcesInScene)
         {
             if (soundEffect != null &&
-                !soundEffect.isPlaying)
+                !soundEffect.isPlaying && !soundEffect.loop)
             {
                 Destroy(soundEffect);
                 AudioSourcesInScene.Remove(soundEffect);
@@ -41,7 +52,7 @@ public class AudioManager : MonoBehaviour
         soundEffect.SoundEffectAudioSource.priority = soundEffect.SoundEffectPriority;
     }
 
-    public void PlaySoundEffectOneTime(string nameOfSoundEffect)
+    public void PlaySoundEffect(string nameOfSoundEffect)
     {
         SoundEffect s = AvailableSoundEffects.Find(soundEffect => soundEffect.SoundEffectName == nameOfSoundEffect);
         AudioSource audiosource = gameObject.AddComponent<AudioSource>();
@@ -56,28 +67,6 @@ public class AudioManager : MonoBehaviour
         AudioSourcesInScene.Add(audiosource);
     }
 
-    // public void StopPlayingSoundEffect(string nameOfSoundEffect, AudioSource objectsAudioSource)
-    // {
-    //     SoundEffect s = AudioSourcesInScene.Find(soundEffect =>
-    //         soundEffect.SoundEffectName == nameOfSoundEffect &&
-    //         soundEffect.SoundEffectAudioSource == objectsAudioSource);
-    //     if (s == null)
-    //     {
-    //         Debug.LogWarning("Sound: " + nameOfSoundEffect + " not found!");
-    //         return;
-    //     }
-    //
-    //     //The variances are for example to use a small fade out before we transition to another song.
-    //     s.SoundEffectAudioSource.volume = s.SoundEffectVolume *
-    //                                       (1f + UnityEngine.Random.Range(-s.SoundEffectVolumeVariance / 2f,
-    //                                           s.SoundEffectVolumeVariance / 2f));
-    //     s.SoundEffectAudioSource.pitch = s.SoundEffectPitch *
-    //                                      (1f + UnityEngine.Random.Range(-s.SoundEffectPitchVariance / 2f,
-    //                                          s.SoundEffectPitchVariance / 2f));
-    //
-    //     s.SoundEffectAudioSource.Stop();
-    //     AudioSourcesInScene.Remove(s);
-    // }
 
     public void PlaySoundAtGameObject(string nameOfSoundEffect, GameObject gameObjectToSpawnAt)
     {
