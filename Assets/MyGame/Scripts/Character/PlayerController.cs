@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private UIManager _uiManager;
     [SerializeField] private Animator playerAnimator;
+    [SerializeField] private CameraComputerInformation CameraComputerInformation;
 
 
     [Header("Player Settings")] [SerializeField]
@@ -83,6 +84,10 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private LayerMask PlayerExceptionGroundMask;
 
+    [Header("CameraComputer Interaction Settings")] [SerializeField]
+    private bool IsConnectedToComputer;
+
+
     //These are for the gizmo.
     [SerializeField] private Color GroundedColor;
     [SerializeField] private Color OffGroundColor;
@@ -137,56 +142,80 @@ public class PlayerController : MonoBehaviour
 
         ApplyGravity();
         CheckIfPlayerGrounded();
-        PerformCharacterMovement();
-        PerformJump();
-        if (IsFirstPerson)
+        if (!IsConnectedToComputer)
         {
-            if (Physics.Raycast(FPPCam.transform.position, FPPCam.transform.forward, out tempHitObject,
-                    FPPInteractionDistance, InteractionLayerMask))
+            PerformCharacterMovement();
+            PerformJump();
+            if (IsFirstPerson)
             {
-                if (tempHitObject.transform.gameObject != null)
+                if (Physics.Raycast(FPPCam.transform.position, FPPCam.transform.forward, out tempHitObject,
+                        FPPInteractionDistance, InteractionLayerMask))
                 {
-                    if (tempHitObject.transform.CompareTag("Battery"))
+                    if (tempHitObject.transform.gameObject != null)
                     {
-                        _uiManager.SetCrossHairTexture(_uiManager.HandIcon);
+                        if (tempHitObject.transform.CompareTag("Battery"))
+                        {
+                            _uiManager.SetCrossHairTexture(_uiManager.HandIcon);
+                        }
+                        else if (tempHitObject.transform.CompareTag("Note"))
+                        {
+                            _uiManager.SetCrossHairTexture(_uiManager.NoteIcon);
+                        }
+                        else if (tempHitObject.transform.CompareTag("CameraComputer"))
+                        {
+                            _uiManager.SetCrossHairTexture(_uiManager.ComputerIcon);
+                        }
+                        else if (tempHitObject.transform.CompareTag("Flashlight"))
+                        {
+                            _uiManager.SetCrossHairTexture(_uiManager.FlashlightIcon);
+                        }
                     }
-                    else if (tempHitObject.transform.CompareTag("Note"))
-                    {
-                        _uiManager.SetCrossHairTexture(_uiManager.NoteIcon);
-                    }
+                }
+                else
+                {
+                    _uiManager.SetCrossHairTexture(_uiManager.Standard_Crosshair);
                 }
             }
             else
             {
-                _uiManager.SetCrossHairTexture(_uiManager.Standard_Crosshair);
+                if (Physics.Raycast(TPPCam.transform.position + TPPCam.transform.forward * TPPInteractionOffset,
+                        TPPCam.transform.forward, out tempHitObject,
+                        TPPInteractionDistance, InteractionLayerMask))
+                {
+                    if (tempHitObject.transform.gameObject != null)
+                    {
+                        if (tempHitObject.transform.CompareTag("Battery"))
+                        {
+                            _uiManager.SetCrossHairTexture(_uiManager.HandIcon);
+                        }
+                        else if (tempHitObject.transform.CompareTag("Note"))
+                        {
+                            _uiManager.SetCrossHairTexture(_uiManager.NoteIcon);
+                        }
+                        else if (tempHitObject.transform.CompareTag("CameraComputer"))
+                        {
+                            _uiManager.SetCrossHairTexture(_uiManager.ComputerIcon);
+                        }
+                        else if (tempHitObject.transform.CompareTag("Flashlight"))
+                        {
+                            _uiManager.SetCrossHairTexture(_uiManager.FlashlightIcon);
+                        }
+                    }
+                }
+                else
+                {
+                    _uiManager.SetCrossHairTexture(_uiManager.Standard_Crosshair);
+                }
             }
+
+            PerformInteraction();
+            FlashLight();
         }
         else
         {
-            if (Physics.Raycast(TPPCam.transform.position + TPPCam.transform.forward * TPPInteractionOffset,
-                    TPPCam.transform.forward, out tempHitObject,
-                    TPPInteractionDistance, InteractionLayerMask))
-            {
-                if (tempHitObject.transform.gameObject != null)
-                {
-                    if (tempHitObject.transform.CompareTag("Battery"))
-                    {
-                        _uiManager.SetCrossHairTexture(_uiManager.HandIcon);
-                    }
-                    else if (tempHitObject.transform.CompareTag("Note"))
-                    {
-                        _uiManager.SetCrossHairTexture(_uiManager.NoteIcon);
-                    }
-                }
-            }
-            else
-            {
-                _uiManager.SetCrossHairTexture(_uiManager.Standard_Crosshair);
-            }
+            CheckForComputerExitInput();
+            SwitchToNextCamera();
         }
-
-        PerformInteraction();
-        FlashLight();
     }
 
     private void OnDrawGizmos()
@@ -206,8 +235,15 @@ public class PlayerController : MonoBehaviour
     //makes for the most fluent camera.
     private void LateUpdate()
     {
-        SwitchCamera();
-        PerformCameraRotation();
+        if (IsConnectedToComputer)
+        {
+            RotateCameraComputerCamera();
+        }
+        else
+        {
+            SwitchCamera();
+            PerformCameraRotation();
+        }
     }
 
     private void PerformCameraRotation()
@@ -415,6 +451,14 @@ public class PlayerController : MonoBehaviour
                 {
                     DoNoteInteraction();
                 }
+                else if ((hit.transform.CompareTag("CameraComputer")))
+                {
+                    DoCameraComputerInteraction(hit.collider.gameObject);
+                }
+                else if (hit.transform.CompareTag("Flashlight"))
+                {
+                    DoFlashlightInteraction();
+                }
                 else
                 {
                     Debug.Log("this is not a valid interactable.");
@@ -435,6 +479,48 @@ public class PlayerController : MonoBehaviour
     private void DoNoteInteraction()
     {
         Debug.Log("i am a note interaction");
+    }
+
+    private void DoCameraComputerInteraction(GameObject hitObject)
+    {
+        Debug.Log("Connected to the computer.");
+        CameraComputerInformation cci = hitObject.GetComponent<CameraComputerInformation>();
+        IsConnectedToComputer = true;
+        _uiManager.SwitchBetweenUIType(false);
+    }
+
+    private void DoFlashlightInteraction()
+    {
+        Debug.Log("i am a flashlight interaction.");
+    }
+
+    private void RotateCameraComputerCamera()
+    {
+    }
+
+    private void CheckForComputerExitInput()
+    {
+        if (_input.interact_Action.WasPerformedThisFrame())
+        {
+            if (IsFirstPerson)
+            {
+                FPPCam.Priority = 1;
+                TPPCam.Priority = 0;
+            }
+            else
+            {
+                FPPCam.Priority = 0;
+                TPPCam.Priority = 1;
+            }
+
+            IsConnectedToComputer = false;
+            _uiManager.SwitchBetweenUIType(true);
+            Debug.Log("Disconnected from the computer.");
+        }
+    }
+
+    private void SwitchToNextCamera()
+    {
     }
 
     private void FlashLight()

@@ -8,6 +8,7 @@ TagManager:
   - Battery
   - Note
   - Flashlight
+  - CameraComputer
   layers:
   - Default
   - TransparentFX
