@@ -15,7 +15,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private UIManager _uiManager;
     [SerializeField] private Animator playerAnimator;
-    [SerializeField] private CameraComputerInformation CameraComputerInformation;
 
 
     [Header("Player Settings")] [SerializeField]
@@ -87,6 +86,9 @@ public class PlayerController : MonoBehaviour
     [Header("CameraComputer Interaction Settings")] [SerializeField]
     private bool IsConnectedToComputer;
 
+    [SerializeField] private CameraComputerInformation cci;
+
+    [SerializeField] private GameObject cameraCurrentlyOn;
 
     //These are for the gizmo.
     [SerializeField] private Color GroundedColor;
@@ -484,7 +486,10 @@ public class PlayerController : MonoBehaviour
     private void DoCameraComputerInteraction(GameObject hitObject)
     {
         Debug.Log("Connected to the computer.");
-        CameraComputerInformation cci = hitObject.GetComponent<CameraComputerInformation>();
+        cci = hitObject.GetComponent<CameraComputerInformation>();
+        cci.CurrentViewingCamera.GetComponentInChildren<CinemachineVirtualCamera>().Priority = 1;
+        FPPCam.Priority = 0;
+        TPPCam.Priority = 0;
         IsConnectedToComputer = true;
         _uiManager.SwitchBetweenUIType(false);
     }
@@ -515,12 +520,54 @@ public class PlayerController : MonoBehaviour
 
             IsConnectedToComputer = false;
             _uiManager.SwitchBetweenUIType(true);
+            cci.CurrentViewingCamera.GetComponentInChildren<CinemachineVirtualCamera>().Priority = 0;
             Debug.Log("Disconnected from the computer.");
         }
     }
 
     private void SwitchToNextCamera()
     {
+        cameraCurrentlyOn = cci.CurrentViewingCamera;
+        int index = cci.CameraObjectsConnectedToThisComputer.FindIndex(currentCamera =>
+            currentCamera.gameObject == cameraCurrentlyOn);
+        cci.currentCamIndex = index;
+
+        if (_input.move.x > 0 && _input.move_Action.WasPressedThisFrame())
+        {
+            if ((index + 1) > cci.CameraObjectsConnectedToThisComputer.Count - 1)
+            {
+                cameraCurrentlyOn.GetComponentInChildren<CinemachineVirtualCamera>().Priority = 0;
+                cci.CurrentViewingCamera =
+                    cci.CameraObjectsConnectedToThisComputer[0];
+            }
+            else
+            {
+                cameraCurrentlyOn.GetComponentInChildren<CinemachineVirtualCamera>().Priority = 0;
+                cci.CurrentViewingCamera =
+                    cci.CameraObjectsConnectedToThisComputer[index + 1];
+            }
+        }
+
+        if (_input.move.x < 0 && _input.move_Action.WasPressedThisFrame())
+        {
+            if ((index - 1) < 0)
+            {
+                cameraCurrentlyOn.GetComponentInChildren<CinemachineVirtualCamera>().Priority = 0;
+                cci.CurrentViewingCamera =
+                    cci.CameraObjectsConnectedToThisComputer[
+                        cci.CameraObjectsConnectedToThisComputer.Count - 1];
+            }
+            else
+            {
+                cameraCurrentlyOn.GetComponentInChildren<CinemachineVirtualCamera>().Priority = 0;
+                cci.CurrentViewingCamera =
+                    cci.CameraObjectsConnectedToThisComputer[index - 1];
+            }
+        }
+
+        cameraCurrentlyOn = cci.CurrentViewingCamera;
+        cameraCurrentlyOn.GetComponentInChildren<CinemachineVirtualCamera>().Priority = 1;
+        cci.ChangeCameraClampSettings(cameraCurrentlyOn.GetComponent<SecurityCamera_Settings>());
     }
 
     private void FlashLight()
