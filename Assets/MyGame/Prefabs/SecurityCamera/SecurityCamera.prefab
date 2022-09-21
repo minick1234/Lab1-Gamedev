@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 561275175}
   - component: {fileID: 561275176}
+  - component: {fileID: 561275177}
   m_Layer: 0
   m_Name: Security_VCAM
   m_TagString: Untagged
@@ -71,6 +72,23 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 1900337792}
+--- !u!114 &561275177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 561275174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 729aad4491e915a41bda2b8325cf757a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FocusTracksTarget: 0
+  m_FocusTracking: 0
+  m_FocusTarget: {fileID: 0}
+  m_FocusOffset: 0
+  m_Profile: {fileID: 11400000, guid: 7579975790f57c9418d4a6d388d81bd0, type: 2}
 --- !u!1 &1900337791
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,10 +230,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5af1ec1825457a4093e6007abd2e9d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinHorizontal_ClampValue: -150
-  MaxHorizontal_ClampValue: 150
-  MinVertical_ClampValue: -60
-  MaxVertical_ClampValue: 60
+  MinHorizontal_ClampValue: -100
+  MaxHorizontal_ClampValue: 100
+  MinVertical_ClampValue: -30
+  MaxVertical_ClampValue: 30
 --- !u!1 &6572901618151705386
 GameObject:
   m_ObjectHideFlags: 0

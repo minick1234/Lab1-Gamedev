@@ -89,6 +89,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private CameraComputerInformation cci;
 
     [SerializeField] private GameObject cameraCurrentlyOn;
+    private float _CameraComputerVerticalTargetPitch;
+    private float _CameraComputerHorizontalTargetPitch;
 
     //These are for the gizmo.
     [SerializeField] private Color GroundedColor;
@@ -507,6 +509,34 @@ public class PlayerController : MonoBehaviour
 
     private void RotateCameraComputerCamera()
     {
+        // if there is movement of the mouse and it exceeds the minimum movement threshhold.
+        if (_input.look.sqrMagnitude >= MouseMovementMinimumThreshhold)
+        {
+            float tempInputLook = _input.look.y;
+            if (InvertMouseMovement)
+            {
+                //inveresed.
+                tempInputLook *= 1f;
+            }
+            else
+            {
+                //standard input
+                tempInputLook *= -1;
+            }
+
+            _CameraComputerVerticalTargetPitch += tempInputLook * MouseSensitivity * 1f;
+            _CameraComputerHorizontalTargetPitch += _input.look.x * MouseSensitivity * 1f;
+
+            // clamp our pitch rotation
+            _CameraComputerVerticalTargetPitch = ClampAngle(_CameraComputerVerticalTargetPitch,
+                cci.CurrentCamera_MinVertical_ClampValue, cci.CurrentCamera_MaxVertical_ClampValue);
+
+            _CameraComputerHorizontalTargetPitch = ClampAngle(_CameraComputerHorizontalTargetPitch,
+                cci.CurrentCamera_MinHorizontal_ClampValue, cci.CurrentCamera_MaxHorizontal_ClampValue);
+
+            cci.CurrentViewingCamera.transform.localRotation = Quaternion.Euler(_CameraComputerVerticalTargetPitch,
+                _CameraComputerHorizontalTargetPitch, 0.0f);
+        }
     }
 
     private void CheckForComputerExitInput()

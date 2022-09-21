@@ -17959,6 +17959,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: SecurityCamera
       objectReference: {fileID: 0}
+    - target: {fileID: 6578357463374774129, guid: ed515510e84a5154fbdce70d19ca1617, type: 3}
+      propertyPath: MaxVertical_ClampValue
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6578357463374774129, guid: ed515510e84a5154fbdce70d19ca1617, type: 3}
+      propertyPath: MinVertical_ClampValue
+      value: -30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6578357463374774129, guid: ed515510e84a5154fbdce70d19ca1617, type: 3}
+      propertyPath: MaxHorizontal_ClampValue
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6578357463374774129, guid: ed515510e84a5154fbdce70d19ca1617, type: 3}
+      propertyPath: MinHorizontal_ClampValue
+      value: -100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed515510e84a5154fbdce70d19ca1617, type: 3}
 --- !u!4 &7194798212050059539
@@ -23124,6 +23140,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8945049420256832914, guid: a540a9125ccd5094392ceac03506683c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8946042515518553127, guid: a540a9125ccd5094392ceac03506683c, type: 3}
       propertyPath: m_Name
       value: Player
