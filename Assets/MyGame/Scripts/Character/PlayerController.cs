@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float TPPInteractionOffset;
     [SerializeField] private float FPPInteractionDistance;
-    [SerializeField] public RaycastHit tempHitObject;
+    [SerializeField] public GameObject tempHitObject;
 
     private int InteractionLayerMask = 1 << 9;
 
@@ -172,24 +172,25 @@ public class PlayerController : MonoBehaviour
             PerformJump();
             if (IsFirstPerson)
             {
-                if (Physics.Raycast(FPPCam.transform.position, FPPCam.transform.forward, out tempHitObject,
+                if (Physics.Raycast(FPPCam.transform.position, FPPCam.transform.forward, out RaycastHit raycastHit,
                         FPPInteractionDistance, InteractionLayerMask))
                 {
-                    if (tempHitObject.transform.gameObject != null)
+                    if (raycastHit.transform.gameObject != null)
                     {
-                        if (tempHitObject.transform.CompareTag("Battery"))
+                        tempHitObject = raycastHit.collider.gameObject;
+                        if (raycastHit.transform.CompareTag("Battery"))
                         {
                             _uiManager.SetCrossHairTexture(_uiManager.HandIcon);
                         }
-                        else if (tempHitObject.transform.CompareTag("Note"))
+                        else if (raycastHit.transform.CompareTag("Note"))
                         {
                             _uiManager.SetCrossHairTexture(_uiManager.NoteIcon);
                         }
-                        else if (tempHitObject.transform.CompareTag("CameraComputer"))
+                        else if (raycastHit.transform.CompareTag("CameraComputer"))
                         {
                             _uiManager.SetCrossHairTexture(_uiManager.ComputerIcon);
                         }
-                        else if (tempHitObject.transform.CompareTag("Flashlight"))
+                        else if (raycastHit.transform.CompareTag("Flashlight"))
                         {
                             _uiManager.SetCrossHairTexture(_uiManager.FlashlightIcon);
                         }
@@ -203,24 +204,25 @@ public class PlayerController : MonoBehaviour
             else
             {
                 if (Physics.Raycast(TPPCam.transform.position + TPPCam.transform.forward * TPPInteractionOffset,
-                        TPPCam.transform.forward, out tempHitObject,
+                        TPPCam.transform.forward, out RaycastHit raycastHit,
                         TPPInteractionDistance, InteractionLayerMask))
                 {
-                    if (tempHitObject.transform.gameObject != null)
+                    if (raycastHit.transform.gameObject != null)
                     {
-                        if (tempHitObject.transform.CompareTag("Battery"))
+                        tempHitObject = raycastHit.collider.gameObject;
+                        if (raycastHit.transform.CompareTag("Battery"))
                         {
                             _uiManager.SetCrossHairTexture(_uiManager.HandIcon);
                         }
-                        else if (tempHitObject.transform.CompareTag("Note"))
+                        else if (raycastHit.transform.CompareTag("Note"))
                         {
                             _uiManager.SetCrossHairTexture(_uiManager.NoteIcon);
                         }
-                        else if (tempHitObject.transform.CompareTag("CameraComputer"))
+                        else if (raycastHit.transform.CompareTag("CameraComputer"))
                         {
                             _uiManager.SetCrossHairTexture(_uiManager.ComputerIcon);
                         }
-                        else if (tempHitObject.transform.CompareTag("Flashlight"))
+                        else if (raycastHit.transform.CompareTag("Flashlight"))
                         {
                             _uiManager.SetCrossHairTexture(_uiManager.FlashlightIcon);
                         }

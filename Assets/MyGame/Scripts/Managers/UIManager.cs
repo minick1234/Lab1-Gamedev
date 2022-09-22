@@ -14,9 +14,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] public GameObject CrossHair_UI;
     [SerializeField] public GameObject CrossHair_UI_For_Flashlight_Eye;
     [SerializeField] public GameObject PlayerUI, ComputerUI;
-    
+
     [SerializeField] public TextMeshProUGUI InteractText;
     [SerializeField] public TextMeshProUGUI TotalNotesCollectedText;
+
+    [SerializeField] public string tempTag;
+
+    [SerializeField] public string tempName;
 
     // Start is called before the first frame update
     void Start()
@@ -28,11 +32,17 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (PlayerController.tempHitObject.gameObject != null)
+        {
+            tempTag = PlayerController.tempHitObject.transform.tag;
+            tempName = PlayerController.tempHitObject.transform.name;
+        }
+
         if ((CrossHair_UI.GetComponent<RawImage>().texture == HandIcon ||
              CrossHair_UI.GetComponent<RawImage>().texture == NoteIcon) &&
-            PlayerController.tempHitObject.transform.gameObject != null)
+            PlayerController.tempHitObject.gameObject != null)
         {
-            InteractText.text = "Press E to pick up " + PlayerController.tempHitObject.transform.tag;
+            InteractText.text = "Press E to pick up " + tempTag;
             InteractText.gameObject.SetActive(true);
         }
         else if (CrossHair_UI.GetComponent<RawImage>().texture == ComputerIcon)
@@ -41,7 +51,7 @@ public class UIManager : MonoBehaviour
 
             CrossHair_UI.SetActive(false);
             CrossHair_UI_For_Flashlight_Eye.SetActive(true);
-            InteractText.text = "Press E to view " + PlayerController.tempHitObject.transform.name;
+            InteractText.text = "Press E to view " + tempName;
             InteractText.gameObject.SetActive(true);
         }
         else if (CrossHair_UI.GetComponent<RawImage>().texture == FlashlightIcon)
@@ -49,7 +59,7 @@ public class UIManager : MonoBehaviour
             CrossHair_UI_For_Flashlight_Eye.GetComponent<RawImage>().texture = FlashlightIcon;
             CrossHair_UI.SetActive(false);
             CrossHair_UI_For_Flashlight_Eye.SetActive(true);
-            InteractText.text = "Press E to pick up " + PlayerController.tempHitObject.transform.tag;
+            InteractText.text = "Press E to pick up " + tempTag;
             InteractText.gameObject.SetActive(true);
         }
         else
