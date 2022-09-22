@@ -9,5 +9,8 @@ public class SecurityCamera_Settings : MonoBehaviour
 
     public float MinVertical_ClampValue;
     public float MaxVertical_ClampValue;
-    
+
+    public float CameraComputerVerticalTargetPitch;
+    public float CameraComputerHorizontalTargetPitch;
+
 }

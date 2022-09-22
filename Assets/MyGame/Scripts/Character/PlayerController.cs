@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class PlayerController : MonoBehaviour
 {
@@ -72,7 +73,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject PlayerFlashLightAim;
     [SerializeField] private GameObject PlayerThirdPersonFlashlightAimPoint;
 
-
     [Header("Input TimeOuts")] [SerializeField]
     private float JumpTimeout = 0.1f;
 
@@ -98,8 +98,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private CameraComputerInformation cci;
 
     [SerializeField] private GameObject cameraCurrentlyOn;
-    private float _CameraComputerVerticalTargetPitch;
-    private float _CameraComputerHorizontalTargetPitch;
 
     //These are for the gizmo.
     [SerializeField] private Color GroundedColor;
@@ -120,12 +118,12 @@ public class PlayerController : MonoBehaviour
         {
             if (PlayerMesh != null)
             {
-                PlayerMesh.gameObject.SetActive(false);
+                PlayerMesh.GetComponent<SkinnedMeshRenderer>().shadowCastingMode = ShadowCastingMode.ShadowsOnly;
             }
 
             if (PlayerHairMesh != null)
             {
-                PlayerHairMesh.gameObject.SetActive(false);
+                PlayerHairMesh.GetComponent<MeshRenderer>().shadowCastingMode = ShadowCastingMode.ShadowsOnly;
             }
 
             if (FlashlightOnPlayerMesh != null && isFlashlightPickedUp)
@@ -140,12 +138,12 @@ public class PlayerController : MonoBehaviour
         {
             if (PlayerMesh != null)
             {
-                PlayerMesh.gameObject.SetActive(true);
+                PlayerMesh.GetComponent<SkinnedMeshRenderer>().shadowCastingMode = ShadowCastingMode.On;
             }
 
             if (PlayerHairMesh != null)
             {
-                PlayerHairMesh.gameObject.SetActive(true);
+                PlayerHairMesh.GetComponent<MeshRenderer>().shadowCastingMode = ShadowCastingMode.On;
             }
 
             if (FlashlightOnPlayerMesh != null && isFlashlightPickedUp)
@@ -387,12 +385,12 @@ public class PlayerController : MonoBehaviour
             {
                 if (PlayerHairMesh != null)
                 {
-                    PlayerHairMesh.gameObject.SetActive(false);
+                    PlayerHairMesh.GetComponent<MeshRenderer>().shadowCastingMode = ShadowCastingMode.ShadowsOnly;
                 }
 
                 if (PlayerMesh != null)
                 {
-                    PlayerMesh.gameObject.SetActive(false);
+                    PlayerMesh.GetComponent<SkinnedMeshRenderer>().shadowCastingMode = ShadowCastingMode.ShadowsOnly;
                 }
 
                 if (FlashlightOnPlayerMesh != null && isFlashlightPickedUp && !isFlashLightEquipt)
@@ -401,7 +399,6 @@ public class PlayerController : MonoBehaviour
                 }
                 else if (FlashlightOnPlayerMesh != null && isFlashlightPickedUp && isFlashLightEquipt)
                 {
-                    FlashlightOnPlayerMesh.gameObject.SetActive(true);
                 }
 
                 FPPCam.Priority = 1;
@@ -411,12 +408,12 @@ public class PlayerController : MonoBehaviour
             {
                 if (PlayerHairMesh != null)
                 {
-                    PlayerHairMesh.gameObject.SetActive(true);
+                    PlayerHairMesh.GetComponent<MeshRenderer>().shadowCastingMode = ShadowCastingMode.On;
                 }
 
                 if (PlayerMesh != null)
                 {
-                    PlayerMesh.gameObject.SetActive(true);
+                    PlayerMesh.GetComponent<SkinnedMeshRenderer>().shadowCastingMode = ShadowCastingMode.On;
                 }
 
                 if (FlashlightOnPlayerMesh != null && isFlashlightPickedUp)
@@ -568,18 +565,23 @@ public class PlayerController : MonoBehaviour
                 tempInputLook *= -1;
             }
 
-            _CameraComputerVerticalTargetPitch += tempInputLook * MouseSensitivity * 1f;
-            _CameraComputerHorizontalTargetPitch += _input.look.x * MouseSensitivity * 1f;
+            cameraCurrentlyOn.GetComponent<SecurityCamera_Settings>().CameraComputerVerticalTargetPitch +=
+                tempInputLook * MouseSensitivity * 1f;
+            cameraCurrentlyOn.GetComponent<SecurityCamera_Settings>().CameraComputerHorizontalTargetPitch +=
+                _input.look.x * MouseSensitivity * 1f;
 
             // clamp our pitch rotation
-            _CameraComputerVerticalTargetPitch = ClampAngle(_CameraComputerVerticalTargetPitch,
+            cameraCurrentlyOn.GetComponent<SecurityCamera_Settings>().CameraComputerVerticalTargetPitch = ClampAngle(
+                cameraCurrentlyOn.GetComponent<SecurityCamera_Settings>().CameraComputerVerticalTargetPitch,
                 cci.CurrentCamera_MinVertical_ClampValue, cci.CurrentCamera_MaxVertical_ClampValue);
 
-            _CameraComputerHorizontalTargetPitch = ClampAngle(_CameraComputerHorizontalTargetPitch,
+            cameraCurrentlyOn.GetComponent<SecurityCamera_Settings>().CameraComputerHorizontalTargetPitch = ClampAngle(
+                cameraCurrentlyOn.GetComponent<SecurityCamera_Settings>().CameraComputerHorizontalTargetPitch,
                 cci.CurrentCamera_MinHorizontal_ClampValue, cci.CurrentCamera_MaxHorizontal_ClampValue);
 
-            cci.CurrentViewingCamera.transform.localRotation = Quaternion.Euler(_CameraComputerVerticalTargetPitch,
-                _CameraComputerHorizontalTargetPitch, 0.0f);
+            cci.CurrentViewingCamera.transform.localRotation = Quaternion.Euler(
+                cameraCurrentlyOn.GetComponent<SecurityCamera_Settings>().CameraComputerVerticalTargetPitch,
+                cameraCurrentlyOn.GetComponent<SecurityCamera_Settings>().CameraComputerHorizontalTargetPitch, 0.0f);
         }
     }
 

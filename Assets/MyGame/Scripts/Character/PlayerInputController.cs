@@ -11,6 +11,7 @@ public class PlayerInputController : MonoBehaviour
     [SerializeField] private InputActionMap _inputActionMap;
     [SerializeField] private Animator playerAnimator;
     [SerializeField] private GameManager _gameManager;
+    [SerializeField] private PlayerController _playerController;
 
     public InputAction move_Action,
         look_Action,
@@ -184,10 +185,12 @@ public class PlayerInputController : MonoBehaviour
         if (newPauseState)
         {
             _gameManager.PauseGame();
+            _playerController.enabled = false;
         }
         else
         {
             _gameManager.UnpauseGame();
+            _playerController.enabled = true;
         }
 
         SetCursorState(newPauseState);
