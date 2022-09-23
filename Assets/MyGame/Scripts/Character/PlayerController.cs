@@ -540,6 +540,12 @@ public class PlayerController : MonoBehaviour
             PlayerMesh.GetComponent<SkinnedMeshRenderer>().shadowCastingMode = ShadowCastingMode.On;
         }
 
+        for (int i = 0; i < cci.CameraObjectsConnectedToThisComputer.Count; i++)
+        {
+            cci.CameraObjectsConnectedToThisComputer[i].transform.parent.GetComponentInChildren<BoxCollider>().enabled =
+                true;
+        }
+
         _uiManager.SwitchBetweenUIType(false);
     }
 
@@ -611,6 +617,13 @@ public class PlayerController : MonoBehaviour
                 PlayerHairMesh.GetComponent<MeshRenderer>().shadowCastingMode = ShadowCastingMode.ShadowsOnly;
                 PlayerMesh.GetComponent<SkinnedMeshRenderer>().shadowCastingMode = ShadowCastingMode.ShadowsOnly;
             }
+
+            for (int i = 0; i < cci.CameraObjectsConnectedToThisComputer.Count; i++)
+            {
+                cci.CameraObjectsConnectedToThisComputer[i].transform.parent.GetComponentInChildren<BoxCollider>()
+                    .enabled = false;
+            }
+
 
             cci.CurrentViewingCamera.GetComponentInChildren<CinemachineVirtualCamera>().Priority = 0;
             Debug.Log("Disconnected from the computer.");
