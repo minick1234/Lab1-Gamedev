@@ -605,6 +605,7 @@ public class PlayerController : MonoBehaviour
 
             IsConnectedToComputer = false;
             _uiManager.SwitchBetweenUIType(true);
+
             if (IsFirstPerson)
             {
                 PlayerHairMesh.GetComponent<MeshRenderer>().shadowCastingMode = ShadowCastingMode.ShadowsOnly;
