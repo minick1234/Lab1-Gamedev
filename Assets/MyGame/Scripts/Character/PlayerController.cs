@@ -17,7 +17,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private UIManager _uiManager;
     [SerializeField] private Animator playerAnimator;
 
-
     [Header("Player Settings")] [SerializeField]
     private float PlayerWalkSpeed;
 
@@ -31,8 +30,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float DesiredJumpHeight;
 
     [Header("Mouse Settings")] [SerializeField]
-    private float MouseSensitivity;
+    public float MouseSensitivity;
 
+    [SerializeField] public float GamepadSensitivity;
+    [SerializeField] public float NormalMouseSensitivity = 0.15f;
     [SerializeField] private bool InvertMouseMovement;
     [SerializeField] private float MouseMovementMinimumThreshhold = 0.01f;
     [SerializeField] private float MaxMouseUpClamp;

@@ -14,6 +14,7 @@ public class PlayerInputController : MonoBehaviour
     [SerializeField] private Animator playerAnimator;
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private PlayerController _playerController;
+    [SerializeField] private PlayerInput _playerInput;
 
     public InputAction move_Action,
         look_Action,
@@ -67,6 +68,7 @@ public class PlayerInputController : MonoBehaviour
         crouch_Action.canceled += OnEndCrouch;
         sprint_Action.canceled += OnEndSprint;
 
+        _playerInput.onControlsChanged += ControlsChanged;
 
         //Start the game originally with the mouse being locked.
         Cursor.lockState = CursorLockMode.Locked;
@@ -91,6 +93,22 @@ public class PlayerInputController : MonoBehaviour
         jump_Action.canceled -= OnEndJump;
         crouch_Action.canceled -= OnEndCrouch;
         sprint_Action.canceled -= OnEndSprint;
+
+        _playerInput.onControlsChanged -= ControlsChanged;
+    }
+
+    private void ControlsChanged(PlayerInput playerInput)
+    {
+        if (playerInput.currentControlScheme.Equals("GamePad"))
+        {
+            Debug.Log("I am a gamepad.");
+            _playerController.MouseSensitivity = _playerController.GamepadSensitivity;
+        }
+        else if (playerInput.currentControlScheme.Equals("Main"))
+        {
+            Debug.Log("I am a Keyboard and mouse.");
+            _playerController.MouseSensitivity = _playerController.NormalMouseSensitivity;
+        }
     }
 
     private void OnDeviceHaBeenChanged(InputUser iu, InputUserChange iuc, InputDevice id)
