@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
+using UnityEngine.tvOS;
 using UnityEngineInternal;
 
 public class PlayerInputController : MonoBehaviour
@@ -65,6 +67,7 @@ public class PlayerInputController : MonoBehaviour
         crouch_Action.canceled += OnEndCrouch;
         sprint_Action.canceled += OnEndSprint;
 
+        
 
         //Start the game originally with the mouse being locked.
         Cursor.lockState = CursorLockMode.Locked;
@@ -89,7 +92,33 @@ public class PlayerInputController : MonoBehaviour
         jump_Action.canceled -= OnEndJump;
         crouch_Action.canceled -= OnEndCrouch;
         sprint_Action.canceled -= OnEndSprint;
+
     }
+
+    private void OnDeviceHaBeenChanged(InputUser iu, InputUserChange iuc, InputDevice id)
+    {
+        if (id.device.IsActuated() && id.device.Equals(Gamepad.current))
+        {
+            Debug.Log("i am currently a gamepad.");
+        }
+        else
+        {
+            Debug.Log("i am currently a keyboard.");
+        }
+    }
+
+    private void Update()
+    {
+        if (Gamepad.current.IsPressed(0))
+        {
+            Debug.Log("i am currently a gamepad.");
+
+        }else if (Keyboard.current.IsActuated(0))
+        {
+            Debug.Log("i am currently a keyboard.");
+        }
+    }
+
 
     private void OnMove(InputAction.CallbackContext obj)
     {
