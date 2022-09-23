@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
     [Header("General Settings")] [SerializeField]
     private float Gravity;
 
-    [SerializeField] private bool IsFirstPerson;
+    [SerializeField] public bool IsFirstPerson;
 
     [SerializeField] private CinemachineVirtualCamera FPPCam, TPPCam;
     [SerializeField] private GameObject PlayerMesh, PlayerHairMesh;
@@ -533,10 +533,11 @@ public class PlayerController : MonoBehaviour
         FPPCam.Priority = 0;
         TPPCam.Priority = 0;
         IsConnectedToComputer = true;
+        currCalculatedSpeed = 0;
         if (IsFirstPerson)
         {
-            PlayerHairMesh.SetActive(true);
-            PlayerMesh.SetActive(true);
+            PlayerHairMesh.GetComponent<MeshRenderer>().shadowCastingMode = ShadowCastingMode.On;
+            PlayerMesh.GetComponent<MeshRenderer>().shadowCastingMode = ShadowCastingMode.On;
         }
 
         _uiManager.SwitchBetweenUIType(false);
@@ -606,8 +607,8 @@ public class PlayerController : MonoBehaviour
             _uiManager.SwitchBetweenUIType(true);
             if (IsFirstPerson)
             {
-                PlayerHairMesh.SetActive(false);
-                PlayerMesh.SetActive(false);
+                PlayerHairMesh.GetComponent<MeshRenderer>().shadowCastingMode = ShadowCastingMode.ShadowsOnly;
+                PlayerMesh.GetComponent<MeshRenderer>().shadowCastingMode = ShadowCastingMode.ShadowsOnly;
             }
 
             cci.CurrentViewingCamera.GetComponentInChildren<CinemachineVirtualCamera>().Priority = 0;

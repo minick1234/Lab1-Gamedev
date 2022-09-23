@@ -9,6 +9,7 @@ TagManager:
   - Note
   - Flashlight
   - CameraComputer
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - GroundChecker
   - Interactable
   - CameraIgnore
-  - 
+  - PostProcessing
   - 
   - 
   - 
