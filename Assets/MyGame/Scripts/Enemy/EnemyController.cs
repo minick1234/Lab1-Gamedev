@@ -36,7 +36,7 @@ public class EnemyController : MonoBehaviour
     void Update()
     {
         CheckPlayerGlaringRotation();
-        // MoveEnemy();
+        MoveEnemy();
     }
 
     private void CheckPlayerGlaringRotation()

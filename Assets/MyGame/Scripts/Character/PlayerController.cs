@@ -537,7 +537,7 @@ public class PlayerController : MonoBehaviour
         if (IsFirstPerson)
         {
             PlayerHairMesh.GetComponent<MeshRenderer>().shadowCastingMode = ShadowCastingMode.On;
-            PlayerMesh.GetComponent<MeshRenderer>().shadowCastingMode = ShadowCastingMode.On;
+            PlayerMesh.GetComponent<SkinnedMeshRenderer>().shadowCastingMode = ShadowCastingMode.On;
         }
 
         _uiManager.SwitchBetweenUIType(false);
@@ -608,7 +608,7 @@ public class PlayerController : MonoBehaviour
             if (IsFirstPerson)
             {
                 PlayerHairMesh.GetComponent<MeshRenderer>().shadowCastingMode = ShadowCastingMode.ShadowsOnly;
-                PlayerMesh.GetComponent<MeshRenderer>().shadowCastingMode = ShadowCastingMode.ShadowsOnly;
+                PlayerMesh.GetComponent<SkinnedMeshRenderer>().shadowCastingMode = ShadowCastingMode.ShadowsOnly;
             }
 
             cci.CurrentViewingCamera.GetComponentInChildren<CinemachineVirtualCamera>().Priority = 0;
