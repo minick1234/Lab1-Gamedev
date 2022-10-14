@@ -230,11 +230,8 @@ public class PlayerInputController : MonoBehaviour
             _playerController.enabled = true;
         }
 
-        SetCursorState(newPauseState);
+        _gameManager.SetCursorState(newPauseState);
     }
 
-    private void SetCursorState(bool newState)
-    {
-        Cursor.lockState = newState ? CursorLockMode.None : CursorLockMode.Locked;
-    }
+ 
 }

@@ -521,8 +521,7 @@ public class PlayerController : MonoBehaviour
     private void DoNoteInteraction(GameObject hitObject)
     {
         Debug.Log("Note picked up.");
-        _gameManager.NotesCollected++;
-        _gameManager.NotesInScene.Remove(hitObject);
+        _gameManager.CollectNote(hitObject);
         Destroy(hitObject);
     }
 
