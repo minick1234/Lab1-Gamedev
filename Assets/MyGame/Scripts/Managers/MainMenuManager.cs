@@ -54,12 +54,12 @@ public class MainMenuManager : MonoBehaviour
 
         if (PlayerPrefs.HasKey("BestTimeMinutes"))
         {
-            PlayerPrefs.SetInt("BestTimeMinutes", 00);
+            PlayerPrefs.SetFloat("BestTimeMinutes", 00);
         }
 
         if (PlayerPrefs.HasKey("BestTimeSeconds"))
         {
-            PlayerPrefs.SetInt("BestTimeSeconds", 00);
+            PlayerPrefs.SetFloat("BestTimeSeconds", 00);
         }
     }
 
@@ -95,12 +95,12 @@ public class MainMenuManager : MonoBehaviour
 
         if (!PlayerPrefs.HasKey("BestTimeMinutes"))
         {
-            PlayerPrefs.SetInt("BestTimeMinutes", 00);
+            PlayerPrefs.SetFloat("BestTimeMinutes", 00);
         }
 
         if (!PlayerPrefs.HasKey("BestTimeSeconds"))
         {
-            PlayerPrefs.SetInt("BestTimeSeconds", 00);
+            PlayerPrefs.SetFloat("BestTimeSeconds", 00);
         }
 
         if (!PlayerPrefs.HasKey("PlayerName") || (PlayerPrefs.GetString("PlayerName").Length <= 1) ||
@@ -179,20 +179,28 @@ public class MainMenuManager : MonoBehaviour
 
             if (PlayerPrefs.HasKey("BestTimeMinutes"))
             {
-                PlayerPrefs.SetInt("BestTimeMinutes", 00);
+                PlayerPrefs.SetFloat("BestTimeMinutes", 00);
             }
 
             if (PlayerPrefs.HasKey("BestTimeSeconds"))
             {
-                PlayerPrefs.SetInt("BestTimeSeconds", 00);
+                PlayerPrefs.SetFloat("BestTimeSeconds", 00);
             }
 
             PlayerPrefs.SetString("PlayerName", "");
         }
 
         nameText.text = "Name:\n" + PlayerPrefs.GetString("PlayerName");
-        BestTimeText.text = "Best Time:\n" + PlayerPrefs.GetFloat("BestTimeMinutes") + ":" +
-                            Mathf.Round(PlayerPrefs.GetFloat("BestTimeSeconds"));
+        if (PlayerPrefs.GetFloat("BestTimeSeconds") <= 9)
+        {
+            BestTimeText.text = "Best Time:\n" + PlayerPrefs.GetFloat("BestTimeMinutes") + ":0" +
+                                Mathf.Round(PlayerPrefs.GetFloat("BestTimeSeconds"));
+        }
+        else
+        {
+            BestTimeText.text = "Best Time:\n" + PlayerPrefs.GetFloat("BestTimeMinutes") + ":" +
+                                Mathf.Round(PlayerPrefs.GetFloat("BestTimeSeconds"));
+        }
         numberOfTimesPlayedText.text = "Times Played With Margret:\n" + PlayerPrefs.GetInt("TotalNumberOfTimesPlayed");
         TotalNotesCollectedText.text = "Total Notes Stolen:\n" + PlayerPrefs.GetInt("TotalNotesCollected");
     }

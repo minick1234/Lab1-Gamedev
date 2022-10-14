@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
     public bool TimeIsUp = false;
     public TextMeshProUGUI timeRemainingText;
 
+    public float PreviousTime = 0;
+    public float CurrTime = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -38,7 +40,13 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("TotalNumberOfTimesPlayed", PlayerPrefs.GetInt("TotalNumberOfTimesPlayed") + 1);
         }
 
-        TotalNoteAmount = NotesInScene.Count;
+        Debug.Log(PlayerPrefs.GetFloat("BestTimeMinutes"));
+        Debug.Log(PlayerPrefs.GetFloat("BestTimeSeconds"));
+        
+            PreviousTime = (Mathf.Round(PlayerPrefs.GetFloat("BestTimeMinutes")) * 100 +
+                            Mathf.Round(PlayerPrefs.GetFloat("BestTimeSeconds")));
+
+            TotalNoteAmount = NotesInScene.Count;
     }
 
     // Update is called once per frame
@@ -58,7 +66,14 @@ public class GameManager : MonoBehaviour
                 TimeIsUp = true;
             }
 
-            timeRemainingText.text = "Time Until Morning:\n" + Minutes + ":" + Mathf.Round(Seconds);
+            if (Mathf.Round(Seconds) <= 9)
+            {
+                timeRemainingText.text = "Time Until Morning:\n" + Minutes + ":0" + Mathf.Round(Seconds);
+            }
+            else
+            {
+                timeRemainingText.text = "Time Until Morning:\n" + Minutes + ":" + Mathf.Round(Seconds);
+            }
         }
         else if (!AllNotesCollected && TimeIsUp)
         {
@@ -80,41 +95,23 @@ public class GameManager : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("BestTimeMinutes") && PlayerPrefs.HasKey("BestTimeSeconds"))
         {
-            float PreviousTime =
-                PlayerPrefs.GetFloat("BestTimeMinutes") + PlayerPrefs.GetFloat("BestTimeSeconds");
+            PreviousTime = 0;
+            
+            CurrTime = 0;
+            CurrTime = Mathf.Round(Minutes) * 100 + Mathf.Round(Seconds);
 
-            if (PlayerPrefs.GetFloat("BestTimeSeconds") <= 9)
+                //if our current time was done faster.
+            if (CurrTime > PreviousTime)
             {
-                PreviousTime = (PlayerPrefs.GetFloat("BestTimeMinutes") * 100 +
-                                PlayerPrefs.GetFloat("BestTimeSeconds"));
-            }
-            else
-            {
-                PreviousTime = (PlayerPrefs.GetFloat("BestTimeMinutes")) +
-                               PlayerPrefs.GetFloat("BestTimeSeconds");
-            }
-
-            float CurrentTime = 0;
-            if (Seconds <= 9)
-            {
-                CurrentTime = Minutes * 100 + Seconds;
-            }
-            else
-            {
-                CurrentTime = Minutes + Seconds;
-            }
-
-            //if our current time was done faster.
-            if (CurrentTime > PreviousTime)
-            {
-                PlayerPrefs.SetFloat("BestTimeMinutes", Minutes);
-                PlayerPrefs.SetFloat("BestTimeSeconds", Seconds);
+                Debug.Log("done faster.");
+                PlayerPrefs.SetFloat("BestTimeMinutes", Mathf.Round(Minutes));
+                PlayerPrefs.SetFloat("BestTimeSeconds", Mathf.Round(Seconds));
             }
         }
         else
         {
-            PlayerPrefs.SetFloat("BestTimeMinutes", Minutes);
-            PlayerPrefs.SetFloat("BestTimeSeconds", Seconds);
+            PlayerPrefs.SetFloat("BestTimeMinutes", Mathf.Round(Minutes));
+            PlayerPrefs.SetFloat("BestTimeSeconds", Mathf.Round(Seconds));
         }
     }
 
