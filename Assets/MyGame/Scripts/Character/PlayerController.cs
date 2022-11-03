@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
 
 
     [Header("Flashlight Settings")] [SerializeField]
-    private GameObject FlashlightOnPlayerMesh;
+    private GameObject FirstPersonFlashlightOnPlayerMesh;
 
     [SerializeField] private float batteriesAvailable;
 
@@ -65,6 +65,7 @@ public class PlayerController : MonoBehaviour
     private float Gravity;
 
     [SerializeField] public bool IsFirstPerson;
+
 
     [SerializeField] private CinemachineVirtualCamera FPPCam, TPPCam;
     [SerializeField] private GameObject PlayerMesh, PlayerHairMesh;
@@ -127,11 +128,11 @@ public class PlayerController : MonoBehaviour
                 PlayerHairMesh.GetComponent<MeshRenderer>().shadowCastingMode = ShadowCastingMode.ShadowsOnly;
             }
 
-            if (FlashlightOnPlayerMesh != null && isFlashlightPickedUp)
-            {
-                FlashlightOnPlayerMesh.gameObject.SetActive(false);
-            }
-
+            /*  if (FlashlightOnPlayerMesh != null && isFlashlightPickedUp)
+              {
+                  FlashlightOnPlayerMesh.gameObject.SetActive(false);
+              }
+            */
             FPPCam.Priority = 1;
             TPPCam.Priority = 0;
         }
@@ -147,11 +148,11 @@ public class PlayerController : MonoBehaviour
                 PlayerHairMesh.GetComponent<MeshRenderer>().shadowCastingMode = ShadowCastingMode.On;
             }
 
-            if (FlashlightOnPlayerMesh != null && isFlashlightPickedUp)
+            /*if (FlashlightOnPlayerMesh != null && isFlashlightPickedUp)
             {
                 FlashlightOnPlayerMesh.gameObject.SetActive(true);
             }
-
+            */
             FPPCam.Priority = 0;
             TPPCam.Priority = 1;
         }
@@ -163,7 +164,6 @@ public class PlayerController : MonoBehaviour
         PlayerRigHeadAim.transform.position = PlayerThirdPersonAimPoint.transform.position;
         PlayerSpineAim.transform.position = PlayerThirdPersonSpineAimPoint.transform.position;
         PlayerFlashLightAim.transform.position = PlayerThirdPersonFlashlightAimPoint.transform.position;
-
 
         ApplyGravity();
         CheckIfPlayerGrounded();
@@ -396,14 +396,6 @@ public class PlayerController : MonoBehaviour
                     PlayerMesh.GetComponent<SkinnedMeshRenderer>().shadowCastingMode = ShadowCastingMode.ShadowsOnly;
                 }
 
-                if (FlashlightOnPlayerMesh != null && isFlashlightPickedUp && !isFlashLightEquipt)
-                {
-                    FlashlightOnPlayerMesh.gameObject.SetActive(false);
-                }
-                else if (FlashlightOnPlayerMesh != null && isFlashlightPickedUp && isFlashLightEquipt)
-                {
-                }
-
                 FPPCam.Priority = 1;
                 TPPCam.Priority = 0;
             }
@@ -417,11 +409,6 @@ public class PlayerController : MonoBehaviour
                 if (PlayerMesh != null)
                 {
                     PlayerMesh.GetComponent<SkinnedMeshRenderer>().shadowCastingMode = ShadowCastingMode.On;
-                }
-
-                if (FlashlightOnPlayerMesh != null && isFlashlightPickedUp)
-                {
-                    FlashlightOnPlayerMesh.gameObject.SetActive(true);
                 }
 
                 FPPCam.Priority = 0;
@@ -552,7 +539,7 @@ public class PlayerController : MonoBehaviour
     private void DoFlashlightInteraction(GameObject hitObject)
     {
         Debug.Log("i am a flashlight interaction.");
-        FlashlightOnPlayerMesh.SetActive(true);
+        FirstPersonFlashlightOnPlayerMesh.SetActive(true);
         isFlashlightPickedUp = true;
         Destroy(hitObject);
     }
