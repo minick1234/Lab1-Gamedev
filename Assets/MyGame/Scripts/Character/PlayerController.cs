@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] public float GamepadSensitivity;
     [SerializeField] public float NormalMouseSensitivity = 0.15f;
+    [SerializeField] public float MobileControlTurningSensitivity;
+    
     [SerializeField] private bool InvertMouseMovement;
     [SerializeField] private float MouseMovementMinimumThreshhold = 0.01f;
     [SerializeField] private float MaxMouseUpClamp;

@@ -42,11 +42,11 @@ public class GameManager : MonoBehaviour
 
         Debug.Log(PlayerPrefs.GetFloat("BestTimeMinutes"));
         Debug.Log(PlayerPrefs.GetFloat("BestTimeSeconds"));
-        
-            PreviousTime = (Mathf.Round(PlayerPrefs.GetFloat("BestTimeMinutes")) * 100 +
-                            Mathf.Round(PlayerPrefs.GetFloat("BestTimeSeconds")));
 
-            TotalNoteAmount = NotesInScene.Count;
+        PreviousTime = (Mathf.Round(PlayerPrefs.GetFloat("BestTimeMinutes")) * 100 +
+                        Mathf.Round(PlayerPrefs.GetFloat("BestTimeSeconds")));
+
+        TotalNoteAmount = NotesInScene.Count;
     }
 
     // Update is called once per frame
@@ -81,8 +81,7 @@ public class GameManager : MonoBehaviour
         }
         else if (AllNotesCollected)
         {
-            timeRemainingText.text = "MARGRET IS DEFEATED.\nReturn to the Main Menu";
-            
+            timeRemainingText.text = "MARGRET IS DEFEATED.\nReturn to the van";
         }
 
         if (NotesCollected >= TotalNoteAmount)
@@ -97,11 +96,11 @@ public class GameManager : MonoBehaviour
         if (PlayerPrefs.HasKey("BestTimeMinutes") && PlayerPrefs.HasKey("BestTimeSeconds"))
         {
             PreviousTime = 0;
-            
+
             CurrTime = 0;
             CurrTime = Mathf.Round(Minutes) * 100 + Mathf.Round(Seconds);
 
-                //if our current time was done faster.
+            //if our current time was done faster.
             if (CurrTime > PreviousTime)
             {
                 Debug.Log("done faster.");
