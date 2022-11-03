@@ -696,4 +696,35 @@ public class PlayerController : MonoBehaviour
         if (lfAngle > 360f) lfAngle -= 360f;
         return Mathf.Clamp(lfAngle, lfMin, lfMax);
     }
+
+    public void StopMovementInstantly()
+    {
+        currCalculatedSpeed = 0;
+        playerAnimator.SetFloat("MoveX", 0);
+        playerAnimator.SetFloat("MoveY", 0);
+        _Controller.Move(Vector3.zero);
+        _input.move = new Vector2(0, 0);
+    }
+
+    public void SetCorrectCameraPriority()
+    {
+        if (IsFirstPerson)
+        {
+            FPPCam.Priority = 1;
+            TPPCam.Priority = 0;
+        }
+        else
+        {
+            FPPCam.Priority = 0;
+            TPPCam.Priority = 1;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (GetComponent<Collider>().gameObject.CompareTag("CutSceneCollider"))
+        {
+            Debug.Log("i am the collider thing.");
+        }
+    }
 }

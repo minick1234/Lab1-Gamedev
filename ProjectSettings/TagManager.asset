@@ -10,6 +10,7 @@ TagManager:
   - Flashlight
   - CameraComputer
   - Enemy
+  - CutSceneCollider
   layers:
   - Default
   - TransparentFX

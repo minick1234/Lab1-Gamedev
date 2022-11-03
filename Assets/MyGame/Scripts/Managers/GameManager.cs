@@ -82,6 +82,7 @@ public class GameManager : MonoBehaviour
         else if (AllNotesCollected)
         {
             timeRemainingText.text = "MARGRET IS DEFEATED.\nReturn to the Main Menu";
+            
         }
 
         if (NotesCollected >= TotalNoteAmount)
