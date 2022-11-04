@@ -109,13 +109,6 @@ public class PlayerInputController : MonoBehaviour
             Debug.Log("I am a Keyboard and mouse.");
             _playerController.MouseSensitivity = _playerController.NormalMouseSensitivity;
         }
-        else if (playerInput.currentControlScheme.Equals("MobileControls"))
-        {
-            //enable the mobile ui.
-
-            //assign the mobile mouse sensitivity;
-            _playerController.MouseSensitivity = _playerController.MobileControlTurningSensitivity;
-        }
     }
 
     private void OnDeviceHaBeenChanged(InputUser iu, InputUserChange iuc, InputDevice id)

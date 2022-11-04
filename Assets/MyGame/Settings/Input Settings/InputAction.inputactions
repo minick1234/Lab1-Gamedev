@@ -391,17 +391,6 @@
                     "isOR": false
                 }
             ]
-        },
-        {
-            "name": "MobileControls",
-            "bindingGroup": "MobileControls",
-            "devices": [
-                {
-                    "devicePath": "<Touchscreen>",
-                    "isOptional": false,
-                    "isOR": false
-                }
-            ]
         }
     ]
 }
