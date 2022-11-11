@@ -1,0 +1,31 @@
+<linker>
+	<assembly fullname="Assembly-CSharp" ignoreIfMissing="1">
+		<type fullname="ConceptArtCarousel">
+			<method name="GoToNextImage"/>
+			<method name="GoToPreviousImage"/>
+			<method name="LoadBackToMainMenu"/>
+		</type>
+		<type fullname="GameManager">
+			<method name="LoadMainMenu"/>
+			<method name="QuitGame"/>
+			<method name="UnpauseGame"/>
+		</type>
+		<type fullname="MainMenuManager">
+			<method name="CloseAssignmentTwoUI"/>
+			<method name="CloseSettingsCanvas"/>
+			<method name="ExitGame"/>
+			<method name="LoadConceptArt"/>
+			<method name="LoadMainGame"/>
+			<method name="LoadSettingsCanvas"/>
+			<method name="OpenAssignmentTwoUI"/>
+			<method name="ResetAllStats"/>
+			<method name="SetFemaleCharacterAsPlayer"/>
+			<method name="SetMaleCharacterAsPlayer"/>
+			<method name="SetPlayerName"/>
+			<method name="SetPlayerName"/>
+			<method name="UpdateChangedText"/>
+			<method name="UpdateChangedText"/>
+			<method name="UpdateChangedText"/>
+		</type>
+	</assembly>
+</linker>
