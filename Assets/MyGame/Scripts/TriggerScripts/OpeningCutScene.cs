@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.Rendering;
 
 public class OpeningCutScene : MonoBehaviour
 {
@@ -31,6 +32,18 @@ public class OpeningCutScene : MonoBehaviour
                 _playerController.StopMovementInstantly();
                 _playerInputController.enabled = false;
                 CanvasObject.SetActive(false);
+
+                if (_playerController.PlayerHairMesh != null)
+                {
+                    _playerController.PlayerHairMesh.GetComponent<MeshRenderer>().shadowCastingMode =
+                        ShadowCastingMode.On;
+                }
+
+                if (_playerController.PlayerMesh != null)
+                {
+                    _playerController.PlayerMesh.GetComponent<SkinnedMeshRenderer>().shadowCastingMode =
+                        ShadowCastingMode.On;
+                }
             }
             else
             {
@@ -41,6 +54,21 @@ public class OpeningCutScene : MonoBehaviour
                 CutSceneFaderUI.SetActive(false);
                 CanvasObject.SetActive(true);
                 Destroy(gameObject);
+
+                if (_playerController.IsFirstPerson)
+                {
+                    if (_playerController.PlayerHairMesh != null)
+                    {
+                        _playerController.PlayerHairMesh.GetComponent<MeshRenderer>().shadowCastingMode =
+                            ShadowCastingMode.ShadowsOnly;
+                    }
+
+                    if (_playerController.PlayerMesh != null)
+                    {
+                        _playerController.PlayerMesh.GetComponent<SkinnedMeshRenderer>().shadowCastingMode =
+                            ShadowCastingMode.ShadowsOnly;
+                    }
+                }
             }
         }
     }

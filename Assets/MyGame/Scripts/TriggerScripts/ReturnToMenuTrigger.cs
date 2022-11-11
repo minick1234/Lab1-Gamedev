@@ -12,7 +12,7 @@ public class ReturnToMenuTrigger : MonoBehaviour
     {
         if (_gm.AllNotesCollected)
         {
-            StartCoroutine(_sceneLoader.RealSceneLoadAsynchronousLoad("MainMenu"));
+            StartCoroutine(_sceneLoader.FakeLoadSceneAsync("MainMenu", 3f));
         }
         else
         {

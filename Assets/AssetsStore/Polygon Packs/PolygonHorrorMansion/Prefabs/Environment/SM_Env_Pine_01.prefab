@@ -95,6 +95,6 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 1.37
-  m_Height: 7.932906
+  m_Height: 14.7
   m_Direction: 1
   m_Center: {x: -0.024587631, y: 3.895606, z: -0.03465247}

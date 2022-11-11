@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject PauseCanvas;
     public GameObject MainUI;
+    public GameObject mobileCanvas;
 
     public float Minutes;
     public float Seconds;
@@ -31,17 +32,20 @@ public class GameManager : MonoBehaviour
     public float PreviousTime = 0;
     public float CurrTime = 0;
 
+    public ParticleSystem ExplosionEffect;
+    public ParticleSystem ExplosionEffect2;
+    public float TimeBeforeExplosion = 3f;
+
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine(ExplosionAfterFewSeconds(TimeBeforeExplosion));
+
         Time.timeScale = 1f;
         if (PlayerPrefs.HasKey("TotalNumberOfTimesPlayed"))
         {
             PlayerPrefs.SetInt("TotalNumberOfTimesPlayed", PlayerPrefs.GetInt("TotalNumberOfTimesPlayed") + 1);
         }
-
-        Debug.Log(PlayerPrefs.GetFloat("BestTimeMinutes"));
-        Debug.Log(PlayerPrefs.GetFloat("BestTimeSeconds"));
 
         PreviousTime = (Mathf.Round(PlayerPrefs.GetFloat("BestTimeMinutes")) * 100 +
                         Mathf.Round(PlayerPrefs.GetFloat("BestTimeSeconds")));
@@ -91,6 +95,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public IEnumerator ExplosionAfterFewSeconds(float timeBeforeExplosion)
+    {
+        yield return new WaitForSeconds(timeBeforeExplosion);
+        ExplosionEffect.Play();
+        ExplosionEffect2.Play();
+    }
+
+
     public void SetPlayerPrefTime()
     {
         if (PlayerPrefs.HasKey("BestTimeMinutes") && PlayerPrefs.HasKey("BestTimeSeconds"))
@@ -136,7 +148,7 @@ public class GameManager : MonoBehaviour
 
     public void LoadMainMenu()
     {
-        StartCoroutine(_sl.RealSceneLoadAsynchronousLoad("MainMenu"));
+        StartCoroutine(_sl.FakeLoadSceneAsync("MainMenu", 2f));
     }
 
     public void QuitGame()
@@ -148,11 +160,12 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0;
         PauseCanvas.SetActive(true);
-        SetCursorState(false);
+        SetCursorState(true);
         MainUI.SetActive(false);
         playerController.enabled = false;
 
         playerInputController.pause = true;
+        mobileCanvas.SetActive(false);
     }
 
     public void UnpauseGame()
@@ -163,6 +176,7 @@ public class GameManager : MonoBehaviour
         playerController.enabled = true;
         playerInputController.pause = false;
         Time.timeScale = 1f;
+        mobileCanvas.SetActive(true);
     }
 
 

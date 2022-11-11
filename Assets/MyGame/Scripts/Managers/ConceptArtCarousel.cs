@@ -32,7 +32,7 @@ public class ConceptArtCarousel : MonoBehaviour
 
     public void LoadBackToMainMenu()
     {
-        StartCoroutine(sl.RealSceneLoadAsynchronousLoad("MainMenu"));
+        StartCoroutine(sl.FakeLoadSceneAsync("MainMenu", 3f));
     }
 
     public void GoToNextImage()

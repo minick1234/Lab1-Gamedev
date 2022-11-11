@@ -4,12 +4,15 @@ using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Playables;
 using UnityEngine.Rendering;
 
 public class PlayerController : MonoBehaviour
 {
     [Header("Important References")] [SerializeField]
     private GameObject _mainCamera;
+
+    [SerializeField] private PlayableDirector pb;
 
     [SerializeField] private PlayerInputController _input;
     [SerializeField] private CharacterController _Controller;
@@ -35,7 +38,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float GamepadSensitivity;
     [SerializeField] public float NormalMouseSensitivity = 0.15f;
     [SerializeField] public float MobileControlTurningSensitivity;
-    
+
     [SerializeField] private bool InvertMouseMovement;
     [SerializeField] private float MouseMovementMinimumThreshhold = 0.01f;
     [SerializeField] private float MaxMouseUpClamp;
@@ -68,9 +71,9 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] public bool IsFirstPerson;
 
-
+    [SerializeField] private GameObject MaleCharacterHat, MaleCharacterMesh, FemaleCharacterHat, FemaleCharacterMesh;
     [SerializeField] private CinemachineVirtualCamera FPPCam, TPPCam;
-    [SerializeField] private GameObject PlayerMesh, PlayerHairMesh;
+    [SerializeField] public GameObject PlayerMesh, PlayerHairMesh;
     [SerializeField] private GameObject PlayerRigHeadAim, PlayerThirdPersonAimPoint;
     [SerializeField] private GameObject PlayerThirdPersonSpineAimPoint;
     [SerializeField] private GameObject PlayerSpineAim;
@@ -114,6 +117,8 @@ public class PlayerController : MonoBehaviour
         {
             _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         }
+
+        SetAppropriateCharacter();
 
         currFallTime = FallTimeout;
         currJumpTime = JumpTimeout;
@@ -275,6 +280,35 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void SetAppropriateCharacter()
+    {
+        if (PlayerPrefs.HasKey("CharacterToPlay"))
+        {
+            if (PlayerPrefs.GetString("CharacterToPlay").Contains("MaleCharacter"))
+            {
+                PlayerMesh = MaleCharacterMesh;
+                PlayerHairMesh = MaleCharacterHat;
+                Debug.Log("I should be a man.");
+                PlayerMesh.SetActive(true);
+                PlayerHairMesh.SetActive(true);
+            }
+            else if (PlayerPrefs.GetString("CharacterToPlay").Contains("FemaleCharacter"))
+            {
+                PlayerMesh = FemaleCharacterMesh;
+                PlayerHairMesh = FemaleCharacterHat;
+                Debug.Log("I should be a lady.");
+                PlayerMesh.SetActive(true);
+                PlayerHairMesh.SetActive(true);
+            }
+        }
+        else
+        {
+            PlayerMesh = FemaleCharacterMesh;
+            PlayerHairMesh = FemaleCharacterHat;
+        }
+    }
+
+
     private void PerformCameraRotation()
     {
         // if there is movement of the mouse and it exceeds the minimum movement threshhold.
@@ -361,6 +395,7 @@ public class PlayerController : MonoBehaviour
             if (_input.jump && currJumpTime <= 0.0f)
             {
                 verticalVelocity = Mathf.Sqrt(DesiredJumpHeight * -2f * Gravity);
+                playerAnimator.SetTrigger("Jump");
             }
 
             if (currJumpTime >= 0.0f)
@@ -475,18 +510,22 @@ public class PlayerController : MonoBehaviour
                 if (hit.transform.CompareTag("Battery"))
                 {
                     DoBatteryInteraction(hit.collider.gameObject);
+                    playerAnimator.SetTrigger("PickupObject");
                 }
                 else if (hit.transform.CompareTag("Note"))
                 {
                     DoNoteInteraction(hit.collider.gameObject);
+                    playerAnimator.SetTrigger("PickupObject");
                 }
                 else if ((hit.transform.CompareTag("CameraComputer")))
                 {
                     DoCameraComputerInteraction(hit.collider.gameObject);
+                    playerAnimator.SetTrigger("PickupObject");
                 }
                 else if (hit.transform.CompareTag("Flashlight"))
                 {
                     DoFlashlightInteraction(hit.collider.gameObject);
+                    playerAnimator.SetTrigger("PickupObject");
                 }
                 else
                 {
@@ -719,14 +758,6 @@ public class PlayerController : MonoBehaviour
         {
             FPPCam.Priority = 0;
             TPPCam.Priority = 1;
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (GetComponent<Collider>().gameObject.CompareTag("CutSceneCollider"))
-        {
-            Debug.Log("i am the collider thing.");
         }
     }
 }

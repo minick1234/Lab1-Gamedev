@@ -12,7 +12,7 @@ public class MainMenuManager : MonoBehaviour
     public GameObject FirstTimeNameCanvas;
     public GameObject SettingsCanvas;
     public TextMeshProUGUI InputFieldTextSettings;
-    
+
     public GameObject MainMenuTitleCanvas;
     public GameObject ButtonPanelCanvas;
     public TextMeshProUGUI InputFieldText;
@@ -22,17 +22,33 @@ public class MainMenuManager : MonoBehaviour
     public TextMeshProUGUI BestTimeText;
     public TextMeshProUGUI TotalNotesCollectedText;
     public TextMeshProUGUI numberOfTimesPlayedText;
-
-
+    
+    
+    //For Assignment 2 
+    public GameObject AssignmentTwoButtonCanvas;
+    
+    public void OpenAssignmentTwoUI()
+    {
+        ButtonPanelCanvas.SetActive(false); 
+        AssignmentTwoButtonCanvas.SetActive(true);
+    }
+    
+    public void CloseAssignmentTwoUI()
+    {
+        ButtonPanelCanvas.SetActive(true);       
+        AssignmentTwoButtonCanvas.SetActive(false);
+    }
+    
+    
     public void LoadMainGame()
     {
-        StartCoroutine(_sl.RealSceneLoadAsynchronousLoad("Prototyping"));
+        StartCoroutine(_sl.FakeLoadSceneAsync("Prototyping",3f));
     }
 
 
     public void LoadConceptArt()
     {
-        StartCoroutine(_sl.RealSceneLoadAsynchronousLoad("ConceptArt"));
+        StartCoroutine(_sl.FakeLoadSceneAsync("ConceptArt",3f));
     }
 
     public void ExitGame()
@@ -61,6 +77,16 @@ public class MainMenuManager : MonoBehaviour
         {
             PlayerPrefs.SetFloat("BestTimeSeconds", 00);
         }
+    }
+
+    public void SetMaleCharacterAsPlayer()
+    {
+        PlayerPrefs.SetString("CharacterToPlay", "MaleCharacter");
+    }
+
+    public void SetFemaleCharacterAsPlayer()
+    {
+        PlayerPrefs.SetString("CharacterToPlay", "FemaleCharacter");
     }
 
 
@@ -201,6 +227,7 @@ public class MainMenuManager : MonoBehaviour
             BestTimeText.text = "Best Time:\n" + PlayerPrefs.GetFloat("BestTimeMinutes") + ":" +
                                 Mathf.Round(PlayerPrefs.GetFloat("BestTimeSeconds"));
         }
+
         numberOfTimesPlayedText.text = "Times Played With Margret:\n" + PlayerPrefs.GetInt("TotalNumberOfTimesPlayed");
         TotalNotesCollectedText.text = "Total Notes Stolen:\n" + PlayerPrefs.GetInt("TotalNotesCollected");
     }
