@@ -165,7 +165,7 @@ public class GameManager : MonoBehaviour
         playerController.enabled = false;
 
         playerInputController.pause = true;
-        mobileCanvas.SetActive(false);
+      //  mobileCanvas.SetActive(false);
     }
 
     public void UnpauseGame()
@@ -176,7 +176,7 @@ public class GameManager : MonoBehaviour
         playerController.enabled = true;
         playerInputController.pause = false;
         Time.timeScale = 1f;
-        mobileCanvas.SetActive(true);
+        //mobileCanvas.SetActive(true);
     }
 
 

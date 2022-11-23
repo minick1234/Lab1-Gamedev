@@ -35,7 +35,8 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CheckPlayerGlaringRotation();
+    //Normally i do this but for this assignment i ignore it.
+      //  CheckPlayerGlaringRotation();
         MoveEnemy();
     }
 
