@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
-using UnityEngine.tvOS;
 using UnityEngineInternal;
 
 public class PlayerInputController : MonoBehaviour

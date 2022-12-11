@@ -15,4 +15,8 @@ EditorBuildSettings:
     path: Assets/MyGame/Scenes/MainMenu.unity
     guid: 3c13c4adef5fb9447acb4cd1140b2497
   m_configObjects:
+    AR Foundation RemoteARFoundationRemoteLoaderSettings: {fileID: 11400000, guid: ef4b4e7778d1a7e479ddcd0016de1c63, type: 2}
+    UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: ec3bc2257cb79924e96831ab9fcb0240, type: 2}
+    UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: 83fb54a7fb6a44c46991eeffeac2c875, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 9aa19a4b6d932334e9eb7fe45245f096, type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 64da04301b4506048999b7b3547686fa, type: 2}
