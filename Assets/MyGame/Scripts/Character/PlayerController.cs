@@ -26,6 +26,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float PlayerSprintSpeed;
     [SerializeField] private float currCalculatedSpeed;
 
+
+    //This all needs to be implemented;
+    [SerializeField] private float playerSprintTimeReset;
+    [SerializeField] private float MaxPlayerSprintEnergy;
+    [SerializeField] private float CurrentPlayerSprintEnergy;
+    [SerializeField] private float TimeBeforeSprintStartsRecharing;
+
+
     [SerializeField] private float terminalVelocity = 53f;
     [SerializeField] private float verticalVelocity;
     [SerializeField] private float speedRateChange;
@@ -202,6 +210,10 @@ public class PlayerController : MonoBehaviour
                         {
                             _uiManager.SetCrossHairTexture(_uiManager.FlashlightIcon);
                         }
+                        else if (raycastHit.transform.CompareTag("Margret"))
+                        {
+                            _uiManager.SetCrossHairTexture(_uiManager.HandIcon);
+                        }
                     }
                 }
                 else
@@ -233,6 +245,10 @@ public class PlayerController : MonoBehaviour
                         else if (raycastHit.transform.CompareTag("Flashlight"))
                         {
                             _uiManager.SetCrossHairTexture(_uiManager.FlashlightIcon);
+                        }
+                        else if (raycastHit.transform.CompareTag("Margret"))
+                        {
+                            _uiManager.SetCrossHairTexture(_uiManager.HandIcon);
                         }
                     }
                 }
@@ -527,6 +543,11 @@ public class PlayerController : MonoBehaviour
                     DoFlashlightInteraction(hit.collider.gameObject);
                     playerAnimator.SetTrigger("PickupObject");
                 }
+                else if (hit.transform.CompareTag("Margret"))
+                {
+                    _gameManager.GameOverAssignment3();
+                    playerAnimator.SetTrigger("PickupObject");
+                }
                 else
                 {
                     Debug.Log("this is not a valid interactable.");
@@ -538,6 +559,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
 
     private void DoBatteryInteraction(GameObject hitObject)
     {

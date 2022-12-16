@@ -11,6 +11,8 @@ TagManager:
   - CameraComputer
   - Enemy
   - CutSceneCollider
+  - EnemyFleeing
+  - Margret
   layers:
   - Default
   - TransparentFX
@@ -28,7 +30,7 @@ TagManager:
   - Minimap
   - Enemy
   - Obstacle
-  - 
+  - FleeingEnemy
   - 
   - 
   - 

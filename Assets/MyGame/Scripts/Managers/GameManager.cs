@@ -29,12 +29,24 @@ public class GameManager : MonoBehaviour
     public bool TimeIsUp = false;
     public TextMeshProUGUI timeRemainingText;
 
+    public float GameScore;
+
     public float PreviousTime = 0;
     public float CurrTime = 0;
 
     public ParticleSystem ExplosionEffect;
     public ParticleSystem ExplosionEffect2;
     public float TimeBeforeExplosion = 3f;
+
+    //These are for assignment 3.
+    public GameObject GameOverDeathUI;
+    public GameObject GameOverAssignment3Win;
+
+    [SerializeField] private AudioManager _audiomanager;
+
+    [SerializeField] public bool IsScreaming;
+
+    [SerializeField] public bool GameOver = false;
 
     // Start is called before the first frame update
     void Start()
@@ -102,6 +114,39 @@ public class GameManager : MonoBehaviour
         ExplosionEffect2.Play();
     }
 
+    public void GameOverAssignment3()
+    {
+        PauseGame();
+
+        Debug.Log("Assignment 3 Finished - Won The Game");
+        //show the ui canvas for win and allow to restart or return to main menu.
+
+        if (PlayerPrefs.HasKey("TotalScoreOfPlayer"))
+        {
+            PlayerPrefs.SetInt("TotalScoreOfPlayer", PlayerPrefs.GetInt("TotalScoreOfPlayer") + 100);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("TotalScoreOfPlayer", 100);
+        }
+
+        GameOver = true;
+        GameOverAssignment3Win.SetActive(true);
+    }
+
+    public void KillPlayerAssignment3()
+    {
+        GameOver = true;
+
+        Debug.Log("Assignment 3 Finished - Lost the game - You died");
+        //Play a sound and show the death screen.
+        _audiomanager.StopSoundEffect("DeathSound");
+        _audiomanager.PlaySoundEffectOneShot("DeathWhenCaught");
+        IsScreaming = false;
+        GameOverDeathUI.SetActive(true);
+        PauseGame();
+    }
+
 
     public void SetPlayerPrefTime()
     {
@@ -148,7 +193,14 @@ public class GameManager : MonoBehaviour
 
     public void LoadMainMenu()
     {
+        UnpauseGame();
         StartCoroutine(_sl.FakeLoadSceneAsync("MainMenu", 2f));
+    }
+
+    public void PlayerAgainAfterWin()
+    {
+        UnpauseGame();
+        StartCoroutine(_sl.FakeLoadSceneAsync("Prototyping", 2f));
     }
 
     public void QuitGame()
@@ -165,7 +217,7 @@ public class GameManager : MonoBehaviour
         playerController.enabled = false;
 
         playerInputController.pause = true;
-      //  mobileCanvas.SetActive(false);
+        //  mobileCanvas.SetActive(false);
     }
 
     public void UnpauseGame()

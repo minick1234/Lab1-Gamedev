@@ -101,6 +101,23 @@ public class AudioManager : MonoBehaviour
         AudioSourcesInScene.Add(audiosource);
     }
 
+    public void StopSoundEffect(string nameOfSoundEffect)
+    {
+        SoundEffect s = AvailableSoundEffects.Find(soundEffect => soundEffect.SoundEffectName == nameOfSoundEffect);
+
+        foreach (var audioSource in AudioSourcesInScene)
+        {
+            if (audioSource.clip == s.SoundEffectClip)
+            {
+                //this is the right clip
+                s.SoundEffectAudioSource.Stop();
+                break;
+            }
+        }
+
+        return;
+    }
+
 
     public void PlaySoundAtGameObject(string nameOfSoundEffect, GameObject gameObjectToSpawnAt)
     {
