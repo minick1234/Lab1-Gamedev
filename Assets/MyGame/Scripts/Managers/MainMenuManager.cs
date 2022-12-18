@@ -22,33 +22,33 @@ public class MainMenuManager : MonoBehaviour
     public TextMeshProUGUI BestTimeText;
     public TextMeshProUGUI TotalNotesCollectedText;
     public TextMeshProUGUI numberOfTimesPlayedText;
-    
-    
+
+
     //For Assignment 2 
     public GameObject AssignmentTwoButtonCanvas;
-    
+
     public void OpenAssignmentTwoUI()
     {
-        ButtonPanelCanvas.SetActive(false); 
+        ButtonPanelCanvas.SetActive(false);
         AssignmentTwoButtonCanvas.SetActive(true);
     }
-    
+
     public void CloseAssignmentTwoUI()
     {
-        ButtonPanelCanvas.SetActive(true);       
+        ButtonPanelCanvas.SetActive(true);
         AssignmentTwoButtonCanvas.SetActive(false);
     }
-    
-    
+
+
     public void LoadMainGame()
     {
-        StartCoroutine(_sl.FakeLoadSceneAsync("Prototyping",3f));
+        StartCoroutine(_sl.FakeLoadSceneAsync("Prototyping", 3f));
     }
 
 
     public void LoadConceptArt()
     {
-        StartCoroutine(_sl.FakeLoadSceneAsync("ConceptArt",3f));
+        StartCoroutine(_sl.FakeLoadSceneAsync("ConceptArt", 3f));
     }
 
     public void ExitGame()
@@ -102,6 +102,11 @@ public class MainMenuManager : MonoBehaviour
         SettingsCanvas.SetActive(false);
         MainMenuTitleCanvas.SetActive(true);
         ButtonPanelCanvas.SetActive(true);
+    }
+
+    public void LoadScoreboardPage()
+    {
+        StartCoroutine(_sl.FakeLoadSceneAsync("ScoreBoard", 2f));
     }
 
 

@@ -64,6 +64,12 @@ public class ScoreBoardDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        {
+            StartCoroutine(_sl.FakeLoadSceneAsync("MainMenu", 3f));
+        }
+
+
         if (Input.GetKeyDown(KeyCode.B))
         {
             Debug.Log("b was pressed dawg.");
