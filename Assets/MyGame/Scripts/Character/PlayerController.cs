@@ -214,6 +214,10 @@ public class PlayerController : MonoBehaviour
                         {
                             _uiManager.SetCrossHairTexture(_uiManager.HandIcon);
                         }
+                        else if (raycastHit.transform.CompareTag("Torch"))
+                        {
+                            _uiManager.SetCrossHairTexture(_uiManager.HandIcon);
+                        }
                     }
                 }
                 else
@@ -247,6 +251,10 @@ public class PlayerController : MonoBehaviour
                             _uiManager.SetCrossHairTexture(_uiManager.FlashlightIcon);
                         }
                         else if (raycastHit.transform.CompareTag("Margret"))
+                        {
+                            _uiManager.SetCrossHairTexture(_uiManager.HandIcon);
+                        }
+                        else if (raycastHit.transform.CompareTag("Torch"))
                         {
                             _uiManager.SetCrossHairTexture(_uiManager.HandIcon);
                         }
@@ -548,6 +556,10 @@ public class PlayerController : MonoBehaviour
                     _gameManager.GameOverAssignment3();
                     playerAnimator.SetTrigger("PickupObject");
                 }
+                else if (hit.transform.CompareTag("Torch"))
+                {
+                    DoTorchInteraction(hit.transform.gameObject);
+                }
                 else
                 {
                     Debug.Log("this is not a valid interactable.");
@@ -557,6 +569,33 @@ public class PlayerController : MonoBehaviour
             {
                 Debug.Log("we hit nothing.");
             }
+        }
+    }
+
+
+    private void DoTorchInteraction(GameObject hit)
+    {
+        Debug.Log("Interacting with torch.");
+        GameObject FireEffect = hit.transform.GetChild(0).gameObject;
+        GameObject PointLight = hit.transform.GetChild(1).gameObject;
+
+        if (FireEffect.activeSelf)
+        {
+            FireEffect.SetActive(false);
+        }
+        else if (!FireEffect.activeSelf)
+        {
+            FireEffect.SetActive(true);
+        }
+
+
+        if (PointLight.activeSelf)
+        {
+            PointLight.SetActive(false);
+        }
+        else if (!PointLight.activeSelf)
+        {
+            PointLight.SetActive(true);
         }
     }
 

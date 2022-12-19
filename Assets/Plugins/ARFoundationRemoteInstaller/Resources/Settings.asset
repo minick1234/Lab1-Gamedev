@@ -111,7 +111,7 @@ MonoBehaviour:
     - 2021.2.17
     - 2021.3.0
     - 2022.1.0
-    enablePluginInAllBuildTargets: 1
+    enablePluginInAllBuildTargets: 0
     warnNonEmbeddedImageLibrary: 1
     warnNativeCameraTrackingIsNotSupported: 1
   port: 44819

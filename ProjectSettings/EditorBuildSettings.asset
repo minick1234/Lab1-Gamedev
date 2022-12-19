@@ -6,14 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/MyGame/Scenes/MainMenu.unity
+    guid: 3c13c4adef5fb9447acb4cd1140b2497
+  - enabled: 1
     path: Assets/MyGame/Scenes/Prototyping.unity
     guid: 72c861d5b1a030242aeb9cab4d4dfcf2
   - enabled: 1
     path: Assets/MyGame/Scenes/ConceptArt.unity
     guid: 87f537b2dcfcb044eb91cad588d57a19
-  - enabled: 1
-    path: Assets/MyGame/Scenes/MainMenu.unity
-    guid: 3c13c4adef5fb9447acb4cd1140b2497
   - enabled: 1
     path: Assets/MyGame/Scenes/ScoreBoard.unity
     guid: 3fca86af94da807468d6ba3afc13e2a4
