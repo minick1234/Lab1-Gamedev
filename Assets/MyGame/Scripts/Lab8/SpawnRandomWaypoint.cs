@@ -28,9 +28,9 @@ public class SpawnRandomWaypoint : MonoBehaviour
     [SerializeField] private GameObject enemyGO;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        currentSpawnedObject = Instantiate(WaypointObject, new Vector3(100, 100, 100), quaternion.identity);
+      //  currentSpawnedObject = Instantiate(WaypointObject, new Vector3(100, 100, 100), quaternion.identity);
         _waypointItem = currentSpawnedObject.GetComponent<WaypointItem>();
         EnemyBehvaiorExecutor = enemyGO.GetComponent<BehaviorExecutor>();
         RespawnWaypoint();
@@ -80,6 +80,6 @@ public class SpawnRandomWaypoint : MonoBehaviour
 
 
         currentSpawnedObject.transform.position = currentRandomSpawnPoint;
-        EnemyBehvaiorExecutor.SetBehaviorParam("TargetToMoveTo", currentSpawnedObject);
+        EnemyBehvaiorExecutor.SetBehaviorParam("RWP", currentSpawnedObject);
     }
 }

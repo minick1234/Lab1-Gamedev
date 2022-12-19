@@ -239,6 +239,8 @@ public class EnemyController : MonoBehaviour
             Debug.DrawRay(this.gameObject.transform.position, desiredVelocity.normalized * 2, Color.red);
         }
 
+    
+        
 
         //the proper if logic when i add in the flashlight equipt animation causde im low on time for lab 1 lol.
         // if ((!IsPlayerGlaringAtMe && !IsPlayerFlashLightOn) || (IsPlayerGlaringAtMe && !IsPlayerFlashLightOn))
@@ -248,4 +250,44 @@ public class EnemyController : MonoBehaviour
         // {
         // }
     }
+    
+    public void SeekFireAroundMap()
+    {
+            
+    }
+
+    public void AlertOtherEnemiesOfPlayer()
+    {
+            
+            
+    }
+        
+
+    public void FleeFromPlayer()
+    {
+        var position = this.gameObject.transform.position;
+
+        Vector3 desiredVelocity = _playerController.transform.position - position;
+
+        if ((_playerController.gameObject.transform.position - this.gameObject.transform.position).magnitude <=
+            PlayerWithinFleeingDistance)
+        {
+            Debug.Log("Enemy is now fleeing");
+            desiredVelocity = desiredVelocity.normalized * MaxSpeedOfEnemy;
+
+            Vector3 steering = desiredVelocity - velocity;
+
+            steering = Vector3.ClampMagnitude(steering, MaxTurningForce);
+
+            steering /= MassOfEnemy;
+            this.gameObject.transform.Rotate(Vector3.up, -1f * this.transform.eulerAngles.y);
+
+            velocity = Vector3.ClampMagnitude(velocity + steering, MaxSpeedOfEnemy);
+            position += (-1 * velocity) * Time.deltaTime;
+            this.gameObject.transform.forward = velocity.normalized;
+            this.gameObject.transform.position = position;
+        }
+    }
+    
+    
 }
