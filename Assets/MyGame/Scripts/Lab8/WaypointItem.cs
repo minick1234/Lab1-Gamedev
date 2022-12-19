@@ -16,7 +16,7 @@ public class WaypointItem : MonoBehaviour
 
     [SerializeField] private Material wayPointMadeIt_material;
     [SerializeField] private Material notAtWayPointYet_material;
-
+    [SerializeField] private PickRandomTorch _randomTorch;
 
     // Update is called once per frame
     void Update()
@@ -38,11 +38,23 @@ public class WaypointItem : MonoBehaviour
             this.gameObject.GetComponent<MeshRenderer>().material = wayPointMadeIt_material;
             EnteredWayPointTime = Time.time;
         }
+        else if (other.transform.CompareTag("Margret"))
+        {
+            HasArrivedAtWaypoint = true;
+            this.gameObject.GetComponent<MeshRenderer>().material = wayPointMadeIt_material;
+            EnteredWayPointTime = Time.time;
+            _randomTorch.isTorchesActive();
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.transform.CompareTag("Enemy"))
+        {
+            this.gameObject.GetComponent<MeshRenderer>().material = notAtWayPointYet_material;
+            HasArrivedAtWaypoint = false;
+        }
+        else if (other.transform.CompareTag("Margret"))
         {
             this.gameObject.GetComponent<MeshRenderer>().material = notAtWayPointYet_material;
             HasArrivedAtWaypoint = false;
